@@ -1,0 +1,344 @@
+syntax = "proto3";
+
+package dtm.v1;
+
+option go_package = "dtm/api/proto/dtm/v1;dtmv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+enum TaskStatus {
+  TASK_STATUS_UNSPECIFIED = 0;
+  TASK_STATUS_CREATED = 1;
+  TASK_STATUS_PLANNED = 2;
+  TASK_STATUS_MAPPED = 3;
+  TASK_STATUS_RUNNING = 4;
+  TASK_STATUS_SUCCEEDED = 5;
+  TASK_STATUS_FAILED = 6;
+  TASK_STATUS_DISPATCHED = 7;
+  TASK_STATUS_RETRYING = 8;
+  TASK_STATUS_REMAPPED = 9;
+  TASK_STATUS_CANCELLED = 10;
+}
+
+enum NodeStatus {
+  NODE_STATUS_UNSPECIFIED = 0;
+  NODE_STATUS_ONLINE = 1;
+  NODE_STATUS_OFFLINE = 2;
+}
+
+enum ExecutionStatus {
+  EXECUTION_STATUS_UNSPECIFIED = 0;
+  EXECUTION_STATUS_SUCCEEDED = 1;
+  EXECUTION_STATUS_FAILED = 2;
+  EXECUTION_STATUS_CREATED = 3;
+  EXECUTION_STATUS_STARTED = 4;
+  EXECUTION_STATUS_CANCELED = 5;
+}
+
+enum StepStatus {
+  STEP_STATUS_UNSPECIFIED = 0;
+  STEP_STATUS_CREATED = 1;
+  STEP_STATUS_MAPPED = 2;
+  STEP_STATUS_DISPATCHED = 3;
+  STEP_STATUS_RUNNING = 4;
+  STEP_STATUS_RETRYING = 5;
+  STEP_STATUS_REMAPPED = 6;
+  STEP_STATUS_SUCCEEDED = 7;
+  STEP_STATUS_FAILED = 8;
+  STEP_STATUS_CANCELLED = 9;
+}
+
+enum IdempotencyMode {
+  IDEMPOTENCY_MODE_UNSPECIFIED = 0;
+  IDEMPOTENCY_MODE_IDEMPOTENT = 1;
+  IDEMPOTENCY_MODE_NON_IDEMPOTENT = 2;
+}
+
+enum HandshakeRejectionReason {
+  HANDSHAKE_REJECTION_REASON_UNSPECIFIED = 0;
+  HANDSHAKE_REJECTION_REASON_NAMESPACE_MISMATCH = 1;
+  HANDSHAKE_REJECTION_REASON_PROTOCOL_MAJOR_INCOMPATIBLE = 2;
+  HANDSHAKE_REJECTION_REASON_MALFORMED_IDENTITY = 3;
+  HANDSHAKE_REJECTION_REASON_INVALID_ENDPOINT = 4;
+  HANDSHAKE_REJECTION_REASON_SELF_SESSION = 5;
+  HANDSHAKE_REJECTION_REASON_DUPLICATE_SESSION = 6;
+}
+
+enum RuntimeReadiness {
+  RUNTIME_READINESS_UNSPECIFIED = 0;
+  RUNTIME_READINESS_NO_COORDINATOR = 1;
+  RUNTIME_READINESS_NOT_COORDINATOR = 2;
+  RUNTIME_READINESS_CORE_NOT_READY = 3;
+  RUNTIME_READINESS_AUTHORITY_NOT_READY = 4;
+  RUNTIME_READINESS_READY = 5;
+}
+
+message RuntimeIdentity {
+  string mesh_namespace = 1;
+  uint32 protocol_major = 2;
+  uint32 protocol_minor = 3;
+  string dtm_version = 4;
+  string node_id = 5;
+  string runtime_instance_id = 6;
+  string advertised_control_endpoint = 7;
+}
+
+message HandshakeRequest {
+  RuntimeIdentity runtime = 1;
+}
+
+message HandshakeResponse {
+  RuntimeIdentity runtime = 1;
+  bool accepted = 2;
+  HandshakeRejectionReason rejection_reason = 3;
+  string rejection_message = 4;
+}
+
+message MeshResourceDescriptor {
+  string resource_id = 1;
+  string kind = 2;
+  string type = 3;
+  repeated string operation_ids = 4;
+  map<string, string> attributes = 5;
+}
+
+message GetResourceAdvertisementRequest {
+  RuntimeIdentity requester = 1;
+}
+
+message GetResourceAdvertisementResponse {
+  RuntimeIdentity owner = 1;
+  repeated MeshResourceDescriptor resources = 2;
+}
+
+message GetRuntimeStatusRequest {
+  RuntimeIdentity requester = 1;
+}
+
+message GetRuntimeStatusResponse {
+  RuntimeIdentity runtime = 1;
+  RuntimeReadiness readiness = 2;
+  RuntimeIdentity coordinator = 3;
+  string core_address = 4;
+  bool local_is_coordinator = 5;
+  bool core_ready = 6;
+  bool authority_ready = 7;
+  bool ingress_ready = 8;
+  string authority_status = 9;
+  string error = 10;
+}
+
+message Task {
+  string id = 1;
+  string intent = 2;
+  repeated string requirements = 3;
+  map<string, string> constraints = 4;
+}
+
+message SubmitTaskRequest {
+  Task task = 1;
+  bool async = 2;
+  string idempotency_key = 3;
+}
+
+message SubmitTaskResponse {
+  string task_id = 1;
+  TaskStatus status = 2;
+  string error = 3;
+  repeated StepResult results = 4;
+  bool deduplicated = 5;
+}
+
+message Node {
+  string id = 1;
+  repeated string capabilities = 2;
+  NodeStatus status = 3;
+  string execution_address = 4;
+}
+
+message RegisterNodeRequest {
+  Node node = 1;
+  string registration_id = 2;
+}
+
+message RegisterNodeResponse {
+  bool accepted = 1;
+  string error = 2;
+}
+
+message HeartbeatRequest {
+  string node_id = 1;
+  string registration_id = 2;
+  int64 sent_at_unix_millis = 3;
+}
+
+message GetTaskStatusRequest {
+  string task_id = 1;
+}
+
+message GetTaskStatusResponse {
+  string task_id = 1;
+  TaskStatus status = 2;
+  string error = 3;
+  repeated StepResult results = 4;
+}
+
+message GetTaskRequest {
+  string task_id = 1;
+}
+
+message TaskStepDetails {
+  string step_id = 1;
+  int32 sequence = 2;
+  string capability = 3;
+  IdempotencyMode idempotency_mode = 4;
+  StepStatus status = 5;
+  string assigned_node_id = 6;
+  int32 attempt_count = 7;
+  int32 max_attempts = 8;
+  string failure_code = 9;
+  string failure_message = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+  google.protobuf.Timestamp started_at = 13;
+  google.protobuf.Timestamp completed_at = 14;
+  int64 version = 15;
+}
+
+message TaskDetails {
+  string task_id = 1;
+  string intent = 2;
+  TaskStatus status = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  google.protobuf.Timestamp started_at = 6;
+  google.protobuf.Timestamp completed_at = 7;
+  string failure_code = 8;
+  string failure_message = 9;
+  int64 version = 10;
+  repeated TaskStepDetails steps = 11;
+}
+
+message GetTaskResponse {
+  TaskDetails task = 1;
+}
+
+message ListTasksRequest {
+  TaskStatus status = 1;
+  google.protobuf.Timestamp created_after = 2;
+  google.protobuf.Timestamp created_before = 3;
+  int32 limit = 4;
+  string page_token = 5;
+}
+
+message TaskSummary {
+  string task_id = 1;
+  string intent = 2;
+  TaskStatus status = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  google.protobuf.Timestamp started_at = 6;
+  google.protobuf.Timestamp completed_at = 7;
+  string failure_code = 8;
+  string failure_message = 9;
+  int64 version = 10;
+}
+
+message ListTasksResponse {
+  repeated TaskSummary tasks = 1;
+  string next_page_token = 2;
+}
+
+message GetTaskExecutionsRequest {
+  string task_id = 1;
+}
+
+message TaskExecution {
+  string execution_id = 1;
+  string task_id = 2;
+  string step_id = 3;
+  int32 attempt_number = 4;
+  string node_id = 5;
+  string request_id = 6;
+  ExecutionStatus status = 7;
+  string failure_code = 8;
+  string failure_message = 9;
+  google.protobuf.Timestamp started_at = 10;
+  google.protobuf.Timestamp completed_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+  google.protobuf.Struct request = 13;
+  google.protobuf.Struct response = 14;
+}
+
+message GetTaskExecutionsResponse {
+  repeated TaskExecution executions = 1;
+}
+
+message HeartbeatResponse {
+  NodeStatus status = 1;
+  string error = 2;
+  int64 lease_expires_unix_millis = 3;
+}
+
+message UpdateNodeStatusRequest {
+  string node_id = 1;
+  NodeStatus status = 2;
+  string registration_id = 3;
+}
+
+message UpdateNodeStatusResponse {
+  bool accepted = 1;
+  string error = 2;
+}
+
+message MappedStep {
+  string step_id = 1;
+  string capability = 2;
+  string node_id = 3;
+  map<string, string> inputs = 4;
+}
+
+message ExecuteStepRequest {
+  string task_id = 1;
+  MappedStep step = 2;
+  string idempotency_key = 3;
+  uint32 attempt = 4;
+}
+
+message StepResult {
+  string step_id = 1;
+  string node_id = 2;
+  ExecutionStatus status = 3;
+  google.protobuf.Struct output = 4;
+  string error = 5;
+}
+
+message ExecuteStepResponse {
+  StepResult result = 1;
+  bool replayed = 2;
+}
+
+service CoreService {
+  rpc SubmitTask(SubmitTaskRequest) returns (SubmitTaskResponse);
+  rpc GetTaskStatus(GetTaskStatusRequest) returns (GetTaskStatusResponse);
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse);
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+  rpc GetTaskExecutions(GetTaskExecutionsRequest) returns (GetTaskExecutionsResponse);
+}
+
+service NodeRegistryService {
+  rpc RegisterNode(RegisterNodeRequest) returns (RegisterNodeResponse);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+  rpc UpdateNodeStatus(UpdateNodeStatusRequest) returns (UpdateNodeStatusResponse);
+}
+
+service AgentExecutionService {
+  rpc ExecuteStep(ExecuteStepRequest) returns (ExecuteStepResponse);
+}
+
+service RuntimeControlService {
+  rpc Handshake(HandshakeRequest) returns (HandshakeResponse);
+  rpc GetResourceAdvertisement(GetResourceAdvertisementRequest) returns (GetResourceAdvertisementResponse);
+  rpc GetRuntimeStatus(GetRuntimeStatusRequest) returns (GetRuntimeStatusResponse);
+}

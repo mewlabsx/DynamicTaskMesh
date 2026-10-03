@@ -1,0 +1,13 @@
+node:
+  id: "sensor-node-001"
+  capabilities:
+    - "temperature_sensor"
+  advertise_address: "127.0.0.1:50061"
+core:
+  address: "127.0.0.1:50051"
+server:
+  listen_address: "127.0.0.1:50061"
+heartbeat:
+  interval: "2s"
+storage:
+  path: "../data/sensor-node-001.db"

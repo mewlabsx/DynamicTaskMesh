@@ -1,0 +1,14 @@
+# Example lab topology; configure reachable addresses before use. Not the local quickstart.
+node:
+  id: "lab-sensor-001"
+  capabilities:
+    - "temperature_sensor"
+  advertise_address: "192.0.2.11:50061"
+core:
+  address: "192.0.2.10:50051"
+server:
+  listen_address: "0.0.0.0:50061"
+heartbeat:
+  interval: "2s"
+storage:
+  path: "../../data/lab/sensor-agent.db"

@@ -1,0 +1,14 @@
+# Example lab topology; configure reachable addresses before use. Not the local quickstart.
+node:
+  id: "lab-cooling-001"
+  capabilities:
+    - "cooling_control"
+  advertise_address: "192.0.2.12:50062"
+core:
+  address: "192.0.2.10:50051"
+server:
+  listen_address: "0.0.0.0:50062"
+heartbeat:
+  interval: "2s"
+storage:
+  path: "../../data/lab/cooling-agent.db"

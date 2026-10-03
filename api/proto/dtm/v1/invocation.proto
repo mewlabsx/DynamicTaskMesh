@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package dtm.v1;
+
+option go_package = "dtm/api/proto/dtm/v1;dtmv1";
+
+// ResourceRef is the complete authority-bound identity carried by native
+// invocation requests. Endpoint and transport selection deliberately remain
+// outside this message.
+message ResourceRef {
+  string resource_id = 1;
+  uint64 resource_generation = 2;
+  string owner_node_id = 3;
+  int64 owner_node_generation = 4;
+  string registration_id = 5;
+}
+
+message InvocationMetadata {
+  string task_id = 1;
+  string step_id = 2;
+  uint32 attempt = 3;
+  string idempotency_key = 4;
+  // Duration in milliseconds. Zero means that the caller supplies no
+  // additional invocation deadline, matching the domain contract.
+  int64 timeout_millis = 5;
+}
+
+message InvocationRequest {
+  bytes invocation_id = 1;
+  ResourceRef resource_ref = 2;
+  string operation_id = 3;
+  bytes payload = 4;
+  InvocationMetadata metadata = 5;
+}
+
+message InvocationResult {
+  bytes invocation_id = 1;
+  bytes payload = 2;
+}
+
+message InvocationError {
+  bytes invocation_id = 1;
+  string code = 2;
+  string message = 3;
+  bool retryable = 4;
+  bool outcome_unknown = 5;
+  string source = 6;
+  string classification = 7;
+  string dispatch_state = 8;
+}
+
+message InvocationResponse {
+  oneof outcome {
+    InvocationResult result = 1;
+    InvocationError error = 2;
+  }
+}
+
+service ResourceInvocationService {
+  rpc InvokeResource(InvocationRequest) returns (InvocationResponse);
+}

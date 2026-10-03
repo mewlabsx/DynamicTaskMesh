@@ -1,0 +1,13 @@
+node:
+  id: "cooling-node-002"
+  capabilities:
+    - "cooling_control"
+  advertise_address: "127.0.0.1:50063"
+core:
+  address: "127.0.0.1:50051"
+server:
+  listen_address: "127.0.0.1:50063"
+heartbeat:
+  interval: "1s"
+storage:
+  path: "../../data/cooling-node-002.db"

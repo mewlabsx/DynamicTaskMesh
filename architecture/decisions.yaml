@@ -1,0 +1,550 @@
+state_version: "0.1"
+
+decisions:
+  - id: "D-KERNEL-VERSION-AXES"
+    title: "Software and Kernel specification versions are independent"
+    status: "FROZEN"
+    supersedes: []
+    decision: "DynamicTaskMesh v0.7 and DTM Kernel specification v0.1 are separate version axes."
+    rationale: "Software compatibility and Kernel object semantics must not change implicitly with one another."
+    source:
+      - "docs/status.md#recorded-status"
+      - "docs/status.md#recorded-status"
+
+  - id: "D-KERNEL-OBJECT-FOUNDATION"
+    title: "K0/K0.5 object relationships remain the foundation"
+    status: "FROZEN"
+    supersedes: []
+    decision: "Resource declares through CapabilityDeclaration; a declaration can produce CapabilityInstance; CapabilityHandle references an instance; ExecutionContext is the caller boundary; EventRecord is the immutable audit fact."
+    rationale: "K0.5-R1 corrects consistency and freeze evidence without changing the Kernel Object Model or adding a new Kernel Object."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-RESOURCE-CAPABILITY-SEPARATION"
+    title: "Resource is not Capability"
+    status: "FROZEN"
+    supersedes: []
+    decision: "Resource is a provider/autonomy boundary and declares capabilities; it is not a generic permission."
+    rationale: "Capability authority must not be inferred from a Resource identity."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-CAPABILITY-HANDLE-AUTHORITY"
+    title: "CapabilityHandle is the only capability authority reference"
+    status: "FROZEN"
+    supersedes: []
+    decision: "CapabilityInstance and Resource IDs do not grant authority; capability use requires a valid CapabilityHandle."
+    rationale: "Authority is context-bound and must not arise from an instance or provider identity alone."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-EXECUTION-CONTEXT-SCOPE"
+    title: "Handle authority is bound to ExecutionContext and Scope"
+    status: "FROZEN"
+    supersedes: []
+    decision: "In the current K1 boundary, CapabilityHandle.Scope and ExecutionContext.Scope are fields of the ExecutionAuthorityScope domain and must be equal; mismatches fail closed and implicit cross-Scope delegation is not supported."
+    rationale: "The handle authority cannot exceed the caller execution boundary."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-EVENT-IMMUTABLE-FACT"
+    title: "EventRecord is an immutable Kernel fact"
+    status: "FROZEN"
+    supersedes: []
+    decision: "EventRecord records audit facts; queries are read-only and User Space cannot publish or rewrite Kernel events."
+    rationale: "Audit facts must not be confused with mutable current state or caller-authored events."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-LIFECYCLE-AVAILABILITY-SEPARATION"
+    title: "Lifecycle and availability are separate state vocabularies"
+    status: "FROZEN"
+    supersedes: []
+    decision: "LifecycleState describes object lifecycle; AvailabilityState describes availability; UNAVAILABLE is not a Kernel lifecycle state."
+    rationale: "Provider availability must not silently rewrite object lifecycle."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-PERMISSIONSET-METADATA"
+    title: "PermissionSet is metadata only in the current state"
+    status: "FROZEN"
+    supersedes: []
+    decision: "PermissionSet performs structural validation only; it is not RBAC, an ACL, a policy decision, or complete authorization proof."
+    rationale: "Complete authorization semantics are outside K0.5-R1 and must not be inferred from the current carrier."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-MANAGER-API-INTERNAL"
+    title: "Manager Go API is not the User Space ABI"
+    status: "FROZEN"
+    supersedes: []
+    decision: "The current Manager Go API is an internal Kernel implementation API, not a User Space or Syscall ABI."
+    rationale: "Implementation visibility must not be mistaken for a frozen external interface."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "internal/kernel/kernel.go"
+
+  - id: "D-INTENT-USERSPACE"
+    title: "Intent remains outside the Kernel authority chain"
+    status: "FROZEN"
+    supersedes: []
+    decision: "Intent is a User Space concept and is not a Kernel authority, syscall target, or implicit CapabilityHandle."
+    rationale: "The current Kernel boundary excludes application intent, planning, workflow interpretation, and business policy."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0-INTENT-REFERENCE-BOUNDARY"
+    title: "Intent vocabulary is not a Kernel object reference"
+    status: "FROZEN"
+    supersedes: []
+    decision: "The current Kernel ObjectReference set excludes Intent. ObjectKindIntent may remain as a reserved vocabulary marker for a future User Space layer, but it is invalid as a Kernel ObjectReference and creates no Intent Kernel Object or authority."
+    rationale: "K1 explicitly keeps Intent outside the Kernel authority chain; the live enum acceptance was an unlinked vocabulary drift, not evidence of a committed KernelIntent design."
+    historical_assessment: "INSUFFICIENT_EVIDENCE for a previously frozen KernelIntent; the current User Space boundary is retained as the valid current evolution."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "internal/kernel/identity/semantics.go"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0.1-INTENT-DUAL-LAYER"
+    title: "UserIntent and KernelIntent are distinct semantic layers"
+    status: "FROZEN_SEMANTICS_ONLY"
+    supersession_mode: "PARTIAL"
+    supersedes:
+      - "D-INTENT-USERSPACE"
+    partially_supersedes:
+      - id: "D-R0-INTENT-REFERENCE-BOUNDARY"
+        scope: "The old decision's future User Space-only interpretation of the reserved Intent marker is superseded by the UserIntent/KernelIntent split."
+        retained_aspect: "The current Kernel ObjectReference rejection, reserved marker status, and absence of a current Intent object or authority remain effective."
+    supersession_scope:
+      superseded_decision: "D-INTENT-USERSPACE"
+      superseded_aspect: "The old decision's unqualified single-layer interpretation of Intent."
+      retained_aspect: "UserIntent remains User Space-owned and is not a Kernel authority, syscall target, or implicit CapabilityHandle."
+    interpretation_anchors:
+      # section preserves the original K1 historical label, not a heading in the consolidated topic.
+      - source: "docs/kernel-userspace-boundary.md#intent-boundary"
+        section: "2.3 Intent Boundary"
+        prior_statement: "Intent = User Space Concept"
+        superseded_scope: "The unqualified statement is no longer the complete owner-bearing meaning for a future admitted Desired State; R0.1 names that future semantic layer KernelIntent."
+        retained_aspect: "UserIntent, current Task/Application intent, and the no-Intent-syscall/no-authority boundary remain User Space-owned."
+        preservation_rule: "The K1 review remains unchanged historical evidence; this is a current R0.1 interpretation anchor, not a rewrite of K1."
+      - source: "docs/kernel-userspace-boundary.md#intent-boundary"
+        section: "5 Frozen Decisions / item 9"
+        prior_statement: "Intent remains User Space"
+        superseded_scope: "Only the unqualified statement's application to a future admitted Kernel-managed Desired State is narrowed by the R0.1 split."
+        retained_aspect: "User Space meaning and current K1 capability-oriented authority boundaries remain effective."
+        preservation_rule: "The K1 frozen-decision checklist remains unchanged and is interpreted through the scoped R0.1 supersession record."
+    effective_state_rule: "The later R0.1 record governs the declared semantic scope. Retained aspects listed above remain effective, and the superseded records remain historical compatibility evidence rather than competing current meanings."
+    applies_to: "R0.1"
+    change_type: "EXPLICIT_SEMANTIC_SPLIT / FREEZE BREAK"
+    decision: "The unqualified Intent term is split into UserIntent and KernelIntent. UserIntent remains User Space-owned application/domain intent; KernelIntent is a future admitted Kernel-managed Desired State object/mechanism. R0.1 freezes only this prospective object role and minimum semantics; it does not admit a current object, lifecycle, ObjectReference, ABI, or runtime. KernelIntentSpec is normalized boundary data submitted to admission and is not a Kernel Object. The split does not add a current Intent ObjectReference, syscall, runtime, evaluator, planner, scheduler, Task generator, or capability authority."
+    rationale: "The repository contains direct evidence for User Space Task/Application intent and separate v0.7 evidence for admitted desired state, Observation, evaluation, and re-evaluation. Keeping one unqualified UserSpace-only term leaves Gate B's admitted desired-state owner undefined; making all Intent Kernel-owned would move natural language, planning, and business policy across the K1 boundary. The dual-layer split preserves both meanings with the smallest explicit boundary."
+    alternatives:
+      - option: "A — Intent remains UserSpace-only"
+        disposition: "RETAINED_FOR_UserIntent_COMPATIBILITY_BUT_INSUFFICIENT_AS_THE_LONG_TERM_GATE_B_BOUNDARY"
+        reason: "Sufficient for current Task/Planner and K2 capability invocation, but does not name the future admitted desired-state mechanism without conflating claim, admission, and current state."
+      - option: "B — All Intent belongs to Kernel"
+        disposition: "REJECTED"
+        reason: "Over-kernelizes domain semantics and conflicts with K1's explicit exclusion of planning, workflow interpretation, business policy, and Intent-based authority."
+      - option: "C — Dual-layer UserIntent / KernelIntent"
+        disposition: "ACCEPTED"
+        reason: "Preserves the K1 User Space boundary while giving the v0.7 admitted desired-state path a stable Kernel-side semantic owner without selecting runtime mechanisms."
+    semantic_split:
+      - "UserIntent: User Space-owned, may be ambiguous or policy-bearing, and is interpreted/normalized outside Kernel."
+      - "KernelIntentSpec: normalized Desired State boundary data; not a Kernel Object or authority."
+      - "KernelIntent: future admitted Kernel-managed Desired State; semantic concept only in R0.1."
+    minimum_kernel_semantics:
+      - "Identity"
+      - "Lifecycle"
+      - "IntentScope"
+      - "Desired State binding"
+      - "EvaluationState"
+    affected_concepts:
+      - "Intent"
+      - "UserIntent"
+      - "KernelIntentSpec"
+      - "KernelIntent"
+      - "IntentScope"
+      - "EvaluationState"
+    affected_boundaries:
+      - "Application/UserSpace"
+      - "UserIntent / KernelIntent Admission"
+      - "Observation/Event"
+      - "Autonomous Kernel Loop"
+    affected_decisions:
+      - "D-INTENT-USERSPACE"
+      - "D-R0-INTENT-REFERENCE-BOUNDARY"
+    affected_invariants:
+      - "INV-INTENT-USERSPACE"
+      - "INV-R0.1-INTENT-LAYER-SEPARATION"
+      - "INV-R0.1-KERNELINTENT-NOT-EXECUTION-AUTHORITY"
+      - "INV-R0.1-EVALUATION-REQUIRES-OBSERVATION"
+    compatibility_impact: "Legacy Task.Intent remains UserIntent-compatible. CapabilityHandle authority, ExecutionContext binding, ExecutionAuthorityScope equality, Instance validation, invocation semantics, EventRecord immutability, and UNKNOWN semantics are unchanged."
+    K1_impact: "Semantic impact is limited to splitting the unqualified Intent term; the K1 syscall ABI, operation set, request/response meanings, and security boundary are unchanged. No Intent syscall is added."
+    K2_impact: "K2-A, K2-B, and K2-C direction is unchanged. ObjectKindIntent remains invalid for the current Kernel ObjectReference surface because KernelIntent ABI/lifecycle admission is not yet implemented; NOT_IMPLEMENTED is not ARCHITECTURALLY_FORBIDDEN."
+    post_K2_E_impact: "K2-E local convergence remains compatible with the R0.1 split; it does not add an Intent ObjectReference, Intent runtime, or execution authority and does not change the KernelIntent NOT_IMPLEMENTED status."
+    implementation_status: "Architecture semantics only; no Intent runtime implementation is admitted by this decision."
+    source:
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/task-model.md#root-and-child-ownership"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0.1-INTENT-PERSISTENT-REPRESENTATION"
+    title: "KernelIntent is a persistent opaque intent representation"
+    status: "FROZEN_SEMANTICS_ONLY"
+    supersedes: []
+    supersession_mode: "PARTIAL"
+    partially_supersedes:
+      - id: "D-R0.1-INTENT-DUAL-LAYER"
+        scope: "KernelIntent as a Kernel-owned Desired State interpretation and EvaluationState owner"
+        retained_aspect: "UserIntent remains User Space-owned; KernelIntentSpec remains boundary data; no current Intent ObjectReference, syscall, runtime, or capability authority is admitted."
+    decision: "A future admitted KernelIntent is a Kernel-managed persistent representation of an intent. Kernel owns stable identity, persistence/lifecycle, revision, ownership/scope, and structural admission/authority semantics while retaining the intent or desired-state payload as opaque data. KernelIntent does not own business-semantic interpretation, satisfaction evaluation, World Model construction, reconciliation, Satisfaction Planning, scheduling, business policy, Task generation, or capability execution authority."
+    rationale: "The prior R0.1 wording correctly separated UserIntent from a future admitted layer but over-assigned Desired State and EvaluationState semantics to KernelIntent. The persistent opaque representation protects the real Kernel boundary without implementing a KernelIntent runtime or moving business policy into Kernel."
+    semantic_boundary:
+      user_intent: "User Space-owned application/domain/human/agent intention and policy-bearing meaning."
+      kernel_intent_spec: "Normalized intent or desired-state boundary data; its business semantics remain opaque to Kernel."
+      kernel_intent: "Future admitted persistent Kernel-managed representation with structural metadata and opaque intent content."
+      evaluation_state: "User Space or a later explicitly admitted evaluation boundary; not a required KernelIntent lifecycle dimension."
+    kernel_owns:
+      - "Stable identity"
+      - "Persistence/lifecycle and revision semantics"
+      - "Ownership and IntentScope binding"
+      - "Structural admission and authority semantics"
+    kernel_does_not_own:
+      - "Business-semantic interpretation or satisfaction evaluation"
+      - "Observation perception, World Model construction, or reconciliation"
+      - "Satisfaction Planning, Task generation, scheduling, or business policy"
+      - "Capability authority or implicit execution"
+    implementation_status: "Architecture semantics only; no Intent runtime, evaluator, World Model, or reconciliation engine is admitted by this decision."
+    source:
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+
+  - id: "D-GATE-B-PHASE-1-PROVIDER-DISPATCH-RESOLUTION"
+    title: "Provider is resolved at dispatch time"
+    status: "FROZEN"
+    supersedes: []
+    decision: "ExecutionAllocation freezes the Resource/Capability/Context/operation/payload execution binding but does not capture Provider identity. TryAllocateExecution never binds a Provider. DispatchExecution resolves and snapshots the currently configured bounded Provider seam after allocation, authority, Resource, and operation last-mile validation and immediately before the Provider method boundary; changes after that snapshot do not affect the in-flight dispatch."
+    rationale: "Provider discovery, routing, lifecycle, and failover are not Phase 1 semantics. Dispatch-time resolution keeps the allocation model honest and avoids silently freezing a Provider relationship that is not represented in ExecutionDescriptor."
+    source:
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "internal/kernel/execution_ownership.go"
+
+  - id: "D-GATE-B-PHASE-1-RESOURCE-CLAIM-SINGLE-SOURCE"
+    title: "Resource claims are the sole Resource execution-capacity claim-accounting source"
+    status: "FROZEN"
+    supersedes: []
+    decision: "Resource claims are authoritative for Resource execution-capacity ownership and capacity accounting. The live exact allocation-claim set determines which exact execution allocations consume Resource capacity, current consumed capacity, and available execution capacity. ExecutionAllocation.CurrentOccupancy remains the authoritative per-allocation current occupancy conclusion and is not owned by the Resource claim set. Phase 1 keeps no parallel mutable capacity counter."
+    rationale: "The live exact claim set is the single capacity-accounting source, so deriving Resource capacity consumption and availability from it removes a second mutable capacity source without claiming all per-allocation occupancy information or changing capacity semantics."
+    source:
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "internal/kernel/resource/manager.go"
+
+  - id: "D-R0-OBSERVATION-EVENT-SEPARATION"
+    title: "Observation, authoritative state, and EventRecord are separate"
+    status: "FROZEN"
+    supersedes: []
+    decision: "Physical/external Observation or ProviderEvidence is distinct from authoritative Kernel state. Only the applicable validated/admitted transition may mutate Kernel state, and EventRecord remains a Kernel-created immutable audit fact rather than a provider result or caller-authored event."
+    rationale: "The v0.6 evidence vocabulary and K1/K2 EventRecord boundary are compatible when the missing ingress/provenance step is made explicit."
+    flow:
+      - "Physical or external world"
+      - "ProviderEvidence / Observation"
+      - "Validation / Admission"
+      - "Authoritative Kernel state transition"
+      - "Immutable Kernel EventRecord"
+    implementation_status: "K2-E consumes an already authoritative local ResourceRecordView for bounded convergence; external ingress, freshness, contradiction, and remote evidence mechanisms remain OPEN/DEFERRED."
+    source:
+      - "docs/execution-contract.md#results-and-crossing"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0-RESOURCE-ADMISSION-PRESERVATION"
+    title: "Legacy Resource authority is preserved across Kernel re-entry"
+    status: "FROZEN"
+    supersedes: []
+    decision: "The v0.4/v0.5 Node/Resource registration path, including Owner Node, Lease, Endpoint, registration_id, and generation fencing, remains the compatibility authority baseline. K2-E consumes an already authoritative ResourceRecordView through a bounded local admission/projection bridge; that bridge does not replace or prove the broader production admission path."
+    rationale: "The audit found a missing cross-layer bridge, not evidence that established Resource authority was removed."
+    source:
+      - "docs/resource-authority.md#reference-profile"
+      - "docs/resource-authority.md#reference-profile"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K2-OPEN-RESOURCE-ADMISSION-BRIDGE"
+    title: "Provider declaration to Kernel Resource admission bridge"
+    status: "OPEN"
+    supersedes: []
+    decision: "The broader ProviderDeclaration/RegistrationRequest to validated production admission, Kernel Resource creation, CapabilityDeclaration acceptance, and availability observation bridge remains OPEN. K2-E separately implements only a bounded local bridge from an already authoritative ResourceRecordView; this must not be inferred from a Mesh Resource View, Resource ID, or provider claim."
+    rationale: "The broader bridge directly affects production and remote integration and remains outside the bounded K2-E local convergence path. The local path provides evidence without selecting distributed admission, remote trust, or a new registration protocol."
+    k2_e_local_scope: "IMPLEMENTED_FOR_K2_E: existing authoritative ResourceRecordView -> local Kernel Resource/Declaration/Instance composition; no caller authority is minted."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/resource-authority.md#reference-profile"
+
+  - id: "D-R0-SCOPE-DOMAIN-SEPARATION"
+    title: "Handle Scope names only the current execution authority domain"
+    status: "FROZEN"
+    supersedes: []
+    decision: "The strict CapabilityHandle.Scope == ExecutionContext.Scope rule is an ExecutionAuthorityScope rule only. AutonomyScope, IntentScope, RoleScope, and Mesh/Region scope meanings remain distinct and are not made flat, equal, inherited, contained, or delegated by this rule."
+    rationale: "This preserves the K1 local authority boundary without freezing future autonomy organization or governance into a string equality check."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0-LOCAL-AVAILABILITY-PROVENANCE"
+    title: "Context and Handle availability are local derived gates"
+    status: "FROZEN"
+    supersedes: []
+    decision: "In the current Kernel model, ExecutionContext.Availability is derived from its lifecycle and represents local context usability; CapabilityHandle.Availability is derived from its handle lifecycle and represents a local handle gate. Neither field is a projection of Resource or CapabilityInstance provider availability, which is checked separately."
+    rationale: "This selects the smallest semantics already expressed by the K0.5 code while resolving the K2-C ambiguity without adding a scheduler, provider callback, or new state machine."
+    source:
+      - "internal/kernel/execution/model.go"
+      - "internal/kernel/capability/model.go"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0-TWO-GATE-SUCCESS-CRITERIA"
+    title: "Runtime foundation and autonomous loop are separate gates"
+    status: "FROZEN"
+    supersedes: []
+    decision: "Gate A is the local runtime foundation path through Context, Handle, CapabilityInstance, Provider, result, and EventRecord. Gate B is the broader autonomous loop from admitted desired state and Observation through User Space evaluation, invocation, world change, and re-evaluation. Gate A does not replace or complete Gate B."
+    rationale: "The K2 narrowing is intentional staging in the evidence, not removal of DTM's autonomous-kernel success criterion."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/task-model.md#root-and-child-ownership"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-GATE-B-PHASE-1-EXECUTION-OWNERSHIP"
+    title: "Gate B Phase 1 adds Resource execution ownership"
+    status: "FROZEN"
+    supersedes:
+      - "K2-B phase-scoped No Invocation Kernel Object limitation, only for ExecutionAllocation"
+    decision: "ExecutionAllocation is a Kernel-managed runtime object that owns one Resource execution-capacity claim and embeds an immutable ExecutionDescriptor. The bounded path is TryAllocateExecution -> DispatchExecution -> ExecutionObservation -> ReleaseExecution; Resource owns fixed unweighted capacity with an effective default of one. The full autonomous Gate B loop remains reserved."
+    rationale: "A minimal allocation owner is required to place a deterministic side-effect barrier between the existing K2 authority validation and Provider invocation without introducing Task, Scheduler, Intent, remote, persistence, or distributed coordination mechanisms."
+    retained_decisions:
+      - "Resource is distinct from Capability and CapabilityHandle remains the only capability authority reference."
+      - "LifecycleState and AvailabilityState remain separate."
+      - "UNKNOWN outcome/occupancy is not collapsed into FAILED and is not blindly retried."
+      - "Task lifecycle, priority, trigger/queue ordering, and scheduling policy remain User Space."
+    source:
+      - "docs/resource-authority.md#execution-capacity"
+      - "internal/kernel/execution_ownership.go"
+
+  - id: "D-TASK-EXTERNAL-POLICY-MANAGEMENT"
+    title: "Task is an external User Space and Policy Layer concept"
+    status: "FROZEN_SEMANTICS_ONLY"
+    supersedes: []
+    decision: "Task is a Kernel-external managed concept owned by User Space / Policy Layer. Kernel does not own Task creation, decomposition, lifecycle, scheduling, retry policy, result aggregation, completion evaluation, root-task satisfaction evaluation, or child-task planning. Kernel may retain only opaque RootTaskRef and ChildTaskRef lineage references."
+    rationale: "The existing execution-ownership path needs lineage correlation without moving workflow or business policy into Kernel. Resolving the prior Task ownership question preserves the Task-oriented system boundary while keeping the one-child-to-one-concrete-invocation rule in the external Task/Policy and lineage contract."
+    lineage_rule: "One Child Task maps to at most one concrete Capability execution request, at most one ExecutionRequest, and at most one Capability invocation. This cardinality rule does not create a Task Kernel Object or Kernel scheduler entity."
+    kernel_visibility: "Task is not a Kernel Object or Kernel-managed lifecycle. RootTaskRef and ChildTaskRef are opaque references that allow Kernel to report execution origin without interpreting Task business, planning, scheduling, or completion semantics."
+    source:
+      - "docs/task-model.md#root-and-child-ownership"
+      - "docs/kernel-userspace-boundary.md#ownership"
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+
+  - id: "D-GATE-B-PHASE-2-EXECUTION-RESOLUTION"
+    title: "Gate B Phase 2 resolves post-Provider occupancy uncertainty"
+    status: "ACCEPTED"
+    design_status: "ACCEPTED"
+    review_status: "PASS"
+    implementation_status: "BOUNDED_IMPLEMENTED"
+    implementation_readiness: "CLOSED"
+    implementation_review_status: "PASS"
+    supersession_mode: "PARTIAL"
+    supersedes: []
+    partially_supersedes:
+      - id: "D-GATE-B-PHASE-1-EXECUTION-OWNERSHIP"
+        scope: "Only the post-Provider authoritative ENDED handling and deterministic exact execution-claim release responsibility are superseded by this candidate; the Phase 1 decision and closure record remain intact historical evidence."
+        retained_aspect: "Resource-owned execution capacity, authority-before-allocation, immutable ExecutionDescriptor / ExecutionAllocation binding, exact allocation claim ownership, single controlled Dispatch claim, Dispatch-time Provider resolution, UNKNOWN-safe claim retention, no blind retry, Resource availability separation, and all other accepted Gate B Phase 1 ownership semantics remain effective."
+    effective_state_rule: "The PARTIAL edge governs only the declared post-Provider authoritative ENDED release-responsibility scope. All retained Phase 1 aspects remain effective, and the Phase 1 decision/closure records remain historical compatibility evidence rather than competing current meanings."
+    review_fix:
+      "F-01": "FIXED"
+      "F-02": "FIXED_BY_BOUNDED_SCOPE"
+    review_disposition:
+      result: "PASS"
+      F-01: "CLOSED"
+      F-02: "CLOSED"
+      new_blocking_findings: "NONE"
+      task_boundary: "ACCEPTED"
+      execution_resolution_model: "ACCEPTED"
+      current_occupancy_model: "ACCEPTED"
+      automatic_release_refinement: "ACCEPTED"
+      resolution_authority_model: "ACCEPTED"
+      ownership_fence_model: "ACCEPTED"
+      same_fence_boundary: "ACCEPTED"
+      runtime_scope_drift: "NONE"
+    decision: "Gate B Phase 2 design is accepted for safely resolving CurrentOccupancy uncertainty on an existing ExecutionAllocation after the Provider boundary has been crossed. The resolution is exact-allocation scoped, requires authoritative occupancy evidence and compatible Resource execution-ownership authority/fence, and atomically transitions UNKNOWN to ENDED while removing the exact Resource claim, releasing the allocation, and emitting an immutable EventRecord. The separate bounded implementation authorized by this acceptance is same-fence only."
+    rationale: "Phase 1 correctly retains the exact Resource claim when post-boundary occupancy is UNKNOWN, but it intentionally has no later resolution mechanism. A narrow, deterministic resolution boundary prevents unsafe capacity reuse without adding a Task runtime, autonomous loop, retry policy, persistence, remote protocol, or distributed fencing. The bounded correction makes the Phase 1 relationship machine-resolvable and excludes cross-fence retrospective resolution until a future ownership/recovery design."
+    state_model:
+      - "ALLOCATED: Lifecycle RUNNING, CurrentOccupancy NOT_ESTABLISHED, exact Resource claim HELD; Provider boundary not crossed."
+      - "UNRESOLVED: Lifecycle RUNNING, CurrentOccupancy UNKNOWN, exact Resource claim HELD; Provider boundary crossed and continued occupancy cannot be excluded."
+      - "RELEASED: Lifecycle RELEASED, CurrentOccupancy ENDED, exact Resource claim NONE; stable terminal execution-ownership state."
+    observation_rule: "ExecutionObservation is immutable historical evidence of what was observed at dispatch/provider interaction. CurrentOccupancy is the current authoritative conclusion on ExecutionAllocation; later resolution never rewrites the original observation."
+    evidence_rule: "ResolutionEvidence is validated state-transition input, not a Kernel Object, EventRecord, manager, store, or lifecycle. An accepted resolution is subsequently represented by an immutable EventRecord."
+    authority_rule: "Execution Authority, Provider Authority, and Occupancy Resolution Authority are separate. CapabilityHandle grants no Occupancy Resolution Authority, and a Provider has it only when its explicit contract grants authoritative occupancy-reporting semantics."
+    binding_rule: "Resolution binds at minimum to ExecutionAllocationID, ResourceID, and the Resource execution-ownership authority/fence. The bounded implementation requires ResolutionAuthorityFence to exactly equal the immutable OwnershipFence captured by the target ExecutionAllocation. Unqualified bulk claims about all old executions on a Resource are outside Phase 2."
+    same_fence_rule: "The bounded Gate B Phase 2 runtime is SAME-FENCE OCCUPANCY RESOLUTION ONLY: an Occupancy Resolution Authority may resolve an unresolved ExecutionAllocation only when ResolutionAuthorityFence exactly equals ExecutionAllocation.OwnershipFence."
+    cross_fence_rule: "If Allocation A captured E17 and remains UNKNOWN while the Resource current authority is E18, E18 invalidates stale E17 authority but grants no retrospective authority over A. If no explicitly authorized same-fence resolution remains available, preserve A.CurrentOccupancy = UNKNOWN and ExactClaim = HELD and fail closed. Cross-fence resolution remains RESERVED for a future ownership, recovery, or reconciliation milestone."
+    fence_rule: "ExecutionAllocation captures an immutable snapshot of the Resource execution-ownership fence when capacity is granted. A newer fence invalidates stale resolution authority but does not prove that an older execution ended or grant retrospective resolution authority; fence advancement alone is not termination evidence unless a future ownership-transition mechanism explicitly guarantees termination."
+    fence_transition_scope: "Phase 2 does not implement Resource execution-ownership fence advancement, ownership authority migration or takeover, retrospective authority, cross-fence UNKNOWN resolution, automatic release caused by newer-fence existence, distributed fencing, failover ownership reconstruction, or crash/restart ownership reconstruction."
+    atomicity_rule: "Accepted authoritative resolution, exact claim removal, CurrentOccupancy ENDED, Lifecycle RELEASED, and the resulting EventRecord share one Kernel consistency boundary. Contradictory ownership state fails closed rather than being repaired as success."
+    idempotency_rule: "A repeated equivalent submission is ALREADY_RESOLVED only when the immutable original ExecutionObservation exists with Occupancy UNKNOWN, the allocation is already RELEASED with CurrentOccupancy ENDED, and the exact Resource claim is absent. Pre-dispatch or immediate definitive ENDED terminal state alone is not resolution history; an unexpected terminal claim fails closed as an ownership invariant violation."
+    release_rule: "A pre-Provider-crossing allocation may be explicitly abandoned/released; post-Provider-crossing UNKNOWN cannot be ordinarily released; authoritative ENDED converges through deterministic Kernel exact-claim release."
+    availability_rule: "Execution occupancy and Resource AvailabilityState remain separate. Releasing an execution claim does not make an unavailable Resource available, and an unavailable Resource must not be held by a stale execution claim merely to preserve unavailability."
+    persistence_boundary: "Phase 2 is an in-process deterministic mechanism only. CurrentOccupancy and OwnershipFence are not a crash-recovery contract; durable identity, claims, fence/incarnation, ordering, restart recovery, and physical reconciliation require a future milestone."
+    intentional_phase_1_refinement: "Automatic exact-claim release after an authoritatively accepted ENDED conclusion is an intentional refinement of Gate B Phase 1 ownership semantics, not a claim that Phase 1 was incorrect."
+    implementation_note: "The bounded implementation adds ResolveExecutionOccupancy for same-fence exact allocation resolution, CurrentOccupancy and OwnershipFence allocation state, Resource-issued resolution authority, deterministic exact-claim auto-release, and an immutable resolution EventRecord. It adds no new Kernel Object, Provider API, persistence, recovery, or cross-fence/fence-transition runtime; fresh independent implementation review PASS accepted the bounded semantics and the Phase 2 milestone is closed."
+    affected_invariants:
+      - "INV-RESOLUTION-SAME-FENCE-ONLY"
+      - "INV-CROSS-FENCE-UNKNOWN-FAIL-CLOSED"
+    source:
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+      - "docs/status.md#recorded-status"
+
+  - id: "D-R0-SOURCE-AUTHORITY"
+    title: "Architecture source authority and conflict handling"
+    status: "FROZEN"
+    supersedes: []
+    decision: "The machine-readable architecture state is the current control surface. Frozen semantics are changed only by an explicit superseding decision or freeze break; milestone-local drafts, historical documents, audit findings, and untracked implementation are evidence and cannot silently override that state."
+    rationale: "The K0.5 candidate, K1 semantic freeze draft, and untracked future-stage tree need a reproducible authority rule before K2 implementation resumes."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "architecture/README.md"
+
+  - id: "D-R0-DEFERRAL-NOT-NEGATION"
+    title: "Deferred and reserved mechanisms are not forbidden"
+    status: "FROZEN"
+    supersedes: []
+    decision: "DEFERRED, RESERVED, OPEN, and NEEDS_REVIEW classify future or unresolved architecture; they do not mean FORBIDDEN or REMOVED. An explicit decision is required before a future mechanism can be permanently excluded."
+    rationale: "This preserves the distinction between milestone non-goals and architecture non-goals across Mesh, autonomy, Scope, trust, and admission work."
+    source:
+      - "docs/status.md#recorded-status"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-R0-K1-SEMANTIC-FREEZE"
+    title: "K1 semantic foundation is upstream of K2"
+    status: "FROZEN"
+    supersedes: []
+    decision: "The K1-A/K1-B/K1-C semantic contracts and their Kernel Interface Foundation are frozen for downstream K2 design and implementation. The K1 review document's draft label and human-signoff requirement are a separate governance gate; they do not authorize silent semantic changes or imply runtime completion."
+    rationale: "This separates the semantic freeze verdict from the still-open document sign-off and removes the K0.5-to-K1 authority ambiguity without changing K1 meaning."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#ownership"
+
+  - id: "D-R0-CHECKPOINT-NOT-FINAL-FREEZE"
+    title: "R0 is a stage checkpoint, not the final Architecture Freeze"
+    status: "FROZEN"
+    supersedes: []
+    applies_to: "R0"
+    decision: "R0 is recorded as the DTM Kernel Architecture Re-entry stage checkpoint and freeze candidate. It does not claim final Architecture Freeze, does not close OPEN governance or architecture items, and does not authorize K2-C implementation within R0."
+    rationale: "The re-entry repair must provide a stable handoff point without prematurely converting a candidate working tree, open K1 sign-off, or deferred admission/consistency mechanisms into final architecture closure."
+    source:
+      - "architecture/baseline.yaml#checkpoint"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "AGENTS.md#当前项目状态"
+
+  - id: "D-R1-SCOPE"
+    title: "K0.5-R1 does not enter K1 implementation"
+    status: "FROZEN"
+    supersedes: []
+    applies_to: "K0.5-R1 (completed historical milestone)"
+    decision: "R1 is limited to consistency, freeze corrections, tests, documentation, and evidence; it does not implement Syscall, formal ABI, complete authorization, persistence, remote invocation, or new Kernel Objects."
+    rationale: "The milestone boundary prevents future mechanisms from being treated as current capability."
+    source:
+      - "AGENTS.md#当前项目状态"
+      - "docs/status.md#recorded-status"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "D-LEGACY-COMPATIBILITY"
+    title: "Earlier reference paths remain compatibility baselines"
+    status: "FROZEN"
+    supersedes: []
+    applies_to: "K0.5-R1 and subsequent Kernel implementation"
+    decision: "The v0.3-v0.6 reliability and v0.4/v0.5 reference paths remain compatibility baselines and are not rewritten for R1."
+    rationale: "Kernel R1 is additive and bounded; existing working contracts remain outside unnecessary change."
+    source:
+      - "AGENTS.md#当前项目状态"
+      - "AGENTS.md#当前项目状态"
+
+  - id: "K1-OPEN-CROSS-MANAGER-CONSISTENCY"
+    title: "Cross-manager operation consistency and TOCTOU semantics"
+    status: "OPEN"
+    supersedes: []
+    decision: "No commit-time revalidation, version/epoch, lock ordering, or other cross-manager consistency mechanism is selected."
+    rationale: "K0.5-R1 explicitly leaves this operation boundary for later definition."
+    source:
+      - "docs/status.md#recorded-status"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K1-DEFERRED-SYSCALL-ABI"
+    title: "Transport ABI remains deferred beyond the frozen semantic contract"
+    status: "DEFERRED"
+    supersedes: []
+    decision: "The K1 semantic syscall/ABI contract, including request/response meaning and invocation statuses, is frozen; wire format, serialization, transport, language API, and numeric ABI error mapping remain DEFERRED."
+    rationale: "K1-B freezes semantic meaning without selecting a transport or implementation ABI, and the Manager Go API is not an ABI."
+    source:
+      - "docs/execution-contract.md#results-and-crossing"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K1-OPEN-AUTHORIZATION"
+    title: "Authorization source and operation enforcement"
+    status: "OPEN"
+    supersedes: []
+    decision: "Authorization source, formal permission names, operation enforcement, and execution-side authorization proof are not selected."
+    rationale: "PermissionSet is only a metadata carrier and the R1 security boundary is fail-closed without supplying the future evaluator."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K1-DEFERRED-SCOPE-GOVERNANCE"
+    title: "Scope hierarchy and cross-Scope delegation"
+    status: "DEFERRED"
+    supersedes: []
+    decision: "Scope hierarchy, cross-Scope delegation, cross-domain authorization, and stronger governance semantics are not selected."
+    rationale: "K1 freezes strict ExecutionAuthorityScope equality and does not define a wider Scope model."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K1-DEFERRED-EVENT-PERSISTENCE"
+    title: "EventRecord persistence and recovery"
+    status: "DEFERRED"
+    supersedes: []
+    decision: "EventRecord persistence, query retention, recovery semantics, WAL, and Event Journal behavior are not defined."
+    rationale: "The current EventRecord state is an in-memory immutable audit fact; durability is outside R1."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K1-DEFERRED-REMOTE-INVOCATION"
+    title: "Remote trust and remote invocation"
+    status: "DEFERRED"
+    supersedes: []
+    decision: "Remote CapabilityHandle meaning, multi-Kernel trust, remote Scope, revocation, replay, partition, and remote invocation are not defined."
+    rationale: "R1 does not implement remote invocation or Mesh-level coordination."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+
+  - id: "K1-OPEN-REVIEW-SIGNOFF"
+    title: "K1 Architecture Freeze Review final status"
+    status: "OPEN"
+    supersedes: []
+    decision: "The K1 review document remains a draft and still requires final human architecture sign-off. This is an OPEN governance gate separate from the FROZEN K1 semantic contract; it does not permit semantic drift and does not claim runtime implementation."
+    rationale: "R0 resolves the authority ambiguity by distinguishing semantic freeze from document approval, while retaining the sign-off requirement as an explicit open gate."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"

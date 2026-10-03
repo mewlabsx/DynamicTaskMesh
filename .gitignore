@@ -1,0 +1,86 @@
+# Git worktrees
+/.worktrees/
+
+# Go build output
+/dtm-core
+/dtm-agent
+/dtm-submit
+/dtm-core.exe
+/dtm-agent.exe
+/dtm-submit.exe
+*.test
+*.out
+/coverage/
+coverage.*
+
+# Raw test evidence
+/test-result/
+/evidence/
+/artifacts/
+
+# M3-B evidence package (exported outside Git)
+/M3B-evidence/
+
+# M3-C evidence package (exported outside Git)
+/M3C-evidence/
+
+# M3-C-R1 evidence package (exported outside Git)
+/M3C-R1-evidence/
+
+# M3-G1 evidence package (exported outside Git)
+/M3G1-evidence/
+
+# M4-A evidence package (exported outside Git)
+/M4A-evidence/
+
+# M4-A-R1 evidence package (exported outside Git)
+/M4A-R1-evidence/
+
+# M4-B evidence package (exported outside Git)
+/M4B-evidence/
+
+# Generated exports and review artifacts; raw source snapshots must not use a
+# bare .go extension under the Go module tree. Use .go.snapshot for history.
+/exports/*
+!/exports/.gitkeep
+
+# Local runtime state
+/data/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.log
+*.pid
+.cache/
+
+# Local configuration overrides
+/configs/*.local.yaml
+/configs/*.local.yml
+/configs/*.local.json
+
+# Evidence collector local environment
+/dtm-v026-vm-evidence-collector/lab.env
+/dtm-v026-vm-evidence-collector/*.local
+
+# Environment and secret files
+.env
+.env.*
+!.env.example
+/secrets/
+
+# Windows download metadata copied into WSL
+*:Zone.Identifier
+
+# Visual Studio local cache
+.vs/
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Candidate build and validation output
+/bin/
+/.validation/

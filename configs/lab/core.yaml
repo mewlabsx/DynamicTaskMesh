@@ -1,0 +1,16 @@
+# Example lab topology; configure reachable addresses before use. Not the local quickstart.
+server:
+  address: "0.0.0.0:50051"
+lease:
+  ttl: "10s"
+  sweep_interval: "1s"
+storage:
+  driver: "sqlite"
+  path: "../../data/lab/core.db"
+  journal_mode: "WAL"
+  synchronous: "NORMAL"
+  busy_timeout: "5s"
+  auto_migrate: true
+retry:
+  max_attempts: 3
+  backoff: "100ms"

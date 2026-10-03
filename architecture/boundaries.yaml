@@ -1,0 +1,208 @@
+state_version: "0.1"
+
+boundaries:
+  - layer: "Kernel"
+    status: "FROZEN"
+    responsibility_domains:
+      - "Mechanism"
+      - "Authority"
+      - "Lifecycle"
+      - "Execution correctness"
+    current_responsibility:
+      - "Own K0/K0.5 Resource, CapabilityDeclaration, CapabilityInstance, CapabilityHandle, ExecutionContext, and EventRecord semantics."
+      - "Enforce authority, lifecycle, availability, relationship, Handle, Scope, and fail-closed structural boundaries."
+      - "Preserve execution correctness at the capability, context, state, and audit boundaries."
+      - "Coordinate the bounded K2-E local Resource evidence projection and authority-first provider path through an internal LocalRuntime facade; this is not a User Space ABI."
+      - "Own the bounded Gate B Phase 1 execution-capacity path: ExecutionRequest, Resource-owned allocation, frozen binding, one dispatch claim, orthogonal observation, and release."
+      - "Own the bounded Gate B Phase 2 same-fence execution-resolution path: CurrentOccupancy, Resource-issued resolution authority, immutable OwnershipFence snapshot, exact claim release, and resolution EventRecord."
+      - "Expose the accepted bounded Pre-Freeze logical execution facade above the existing managers: caller-owned InvocationID binding, exact opaque Payload identity, idempotent observation, explicit ProviderCrossing applicability, and trusted same-fence resolution ingress; implementation review, acceptance, and independent acceptance verification are PASS; it does not define a User Space ABI."
+      - "Publish immutable audit facts through the Kernel EventManager."
+    not_currently_owned:
+      - "User Space ABI, transport, authentication service, complete authorization evaluator, persistence, or remote trust."
+      - "Task scheduling, Planner/workflow interpretation, business policy, or device/business logic."
+      - "Task creation, decomposition, lifecycle, retry policy, result aggregation, completion evaluation, root-task satisfaction evaluation, or child-task planning. Task remains a User Space / Policy Layer concept, not a Kernel Object."
+      - "Broader provider/external observation ingress and the production cross-layer Resource admission bridge; K2-E only consumes an already authoritative local ResourceRecordView."
+      - "KernelIntent admission runtime, evaluation engine, reconciliation, or Intent syscall/lifecycle surface."
+      - "Task lifecycle, priority, trigger/queue ordering, scheduling policy, semantic retry, planning, or autonomous decision logic."
+      - "Cross-fence or retrospective execution resolution, fence transition/migration, and any broader recovery or external-evidence runtime beyond the bounded same-fence path."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "internal/kernel/kernel.go"
+
+  - layer: "Observation/Event"
+    status: "FROZEN"
+    responsibility_domains:
+      - "Evidence classification"
+      - "Authoritative state transition"
+      - "Immutable audit"
+    current_responsibility:
+      - "Keep physical/external Observation or ProviderEvidence distinct from authoritative Kernel state."
+      - "Keep bounded ExecutionObservation outcome certainty and Resource occupancy certainty as separate dimensions."
+      - "Keep ExecutionObservation as immutable historical dispatch/provider evidence and CurrentOccupancy as the separate current authoritative conclusion on an ExecutionAllocation."
+      - "Require the applicable validation/admission boundary before evidence can cause an authoritative Kernel state transition."
+      - "Record Kernel-created audit facts as immutable EventRecord values after the relevant Kernel action; expose them read-only."
+    not_currently_owned:
+      - "Treating a provider result, external report, timeout, or User Space event as an EventRecord automatically."
+      - "A complete external/provider ingress, freshness, contradiction, replay, or evidence-acceptance protocol; Phase 1's local Provider observation is not that broader ingress."
+    open_items:
+      - "Define provenance and admission for provider/external observations in a later boundary design."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/execution-contract.md#results-and-crossing"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/execution-contract.md#results-and-crossing"
+
+  - layer: "Execution Resolution"
+    status: "ACCEPTED"
+    design_status: "ACCEPTED"
+    review_status: "PASS"
+    implementation_status: "BOUNDED_IMPLEMENTED"
+    implementation_readiness: "CLOSED"
+    implementation_review_status: "PASS"
+    responsibility_domains:
+      - "Post-Provider occupancy uncertainty"
+      - "Exact allocation resolution"
+      - "Resource execution-ownership fence validation"
+      - "Atomic claim release and lifecycle transition"
+    current_responsibility:
+      - "The accepted Phase 2 design and bounded implementation, confirmed by fresh independent implementation review PASS, define the closed same-fence path that resolves an existing ExecutionAllocation from CurrentOccupancy UNKNOWN to ENDED after Provider-boundary crossing."
+      - "Require exact ExecutionAllocationID/ResourceID binding, separate Occupancy Resolution Authority, compatible immutable ownership-fence snapshot, and proof that the execution can no longer occupy the Resource."
+      - "The bounded Phase 2 runtime requires same-fence resolution only: ResolutionAuthorityFence must exactly equal the immutable OwnershipFence captured by the target ExecutionAllocation."
+      - "If an older allocation remains UNKNOWN after a newer Resource fence exists, the newer fence grants no retrospective authority; without authorized same-fence resolution, preserve UNKNOWN and the exact claim and fail closed."
+      - "Keep ResolutionEvidence as validated transition input, ExecutionObservation as immutable history, ExecutionAllocation as authoritative current ownership state, and EventRecord as the immutable fact for an accepted transition."
+      - "Converge accepted ENDED conclusions through deterministic removal of the exact Resource claim and allocation release within one Kernel consistency boundary."
+    not_currently_owned:
+      - "A Resolution Evidence object/manager/store/lifecycle, or new ObjectKind; the bounded implementation adds only a transition-input API and does not create a new Kernel Object."
+      - "Unqualified or bulk Resource-wide termination claims, Provider-derived authority by implication, or fence advancement treated as termination proof by itself."
+      - "Fence advancement, ownership migration/takeover, retrospective authority, cross-fence UNKNOWN resolution, automatic release from newer-fence existence, distributed fencing, or crash/restart ownership reconstruction."
+      - "Persistence, crash recovery, restart reconstruction, remote resolution, cryptographic proof, distributed fencing, cancellation, preemption, retry, scheduling, or the full autonomous Gate B loop."
+    open_items:
+      - "Define the future authoritative evidence sources and their admission/provenance contract."
+      - "Define any future protocol relationship between the bounded dedicated OwnershipFence and existing generation/registration fields; no reuse is assumed."
+      - "Define any broader or distributed atomicity, provenance, and recovery vocabulary without expanding this milestone; the bounded local claim/state/event boundary is recorded in the implementation record."
+    source:
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+      - "docs/execution-contract.md#ownership-and-same-fence-resolution"
+      - "docs/status.md#recorded-status"
+
+  - layer: "UserIntent / KernelIntent Admission"
+    status: "FROZEN_SEMANTICS_ONLY"
+    responsibility_domains:
+      - "Application intent ownership"
+      - "Normalized intent representation boundary"
+      - "Future Kernel-managed persistent-intent admission"
+    current_responsibility:
+      - "Keep UserIntent in User Space, where application/domain/human/agent meaning, ambiguity, and policy interpretation belong. Intent Formulation covers interpretation, normalization, and translation into KernelIntentSpec; Satisfaction Planning is a separate User Space responsibility."
+      - "Represent the normalized handoff as KernelIntentSpec boundary data; it is not a Kernel Object, authority reference, Task, or implicit Handle."
+      - "Define KernelIntent as the future admitted Kernel-managed persistent intent representation with stable identity, persistence/lifecycle, revision, ownership/scope, and structural admission/authority semantics; intent content and business semantics remain opaque."
+      - "Keep IntentScope separate from ExecutionAuthorityScope; the intent boundary never widens CapabilityHandle authority."
+    not_currently_owned:
+      - "A current Intent Manager, Intent ObjectReference, Intent syscall, persistence runtime, or wire/SDK contract."
+      - "Business-semantic evaluator, predicate language, reconciliation engine, World Model, conflict resolver, scheduler, planner, or Task generator."
+    open_items:
+      - "Define the validation and admission mechanism for KernelIntentSpec."
+      - "Define the persistent representation, durability, revision/freshness, remote meaning, and recovery mechanism for a future KernelIntent implementation."
+      - "Define where User Space or another explicitly admitted boundary evaluates intent against authoritative Observation."
+    source:
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+      - "architecture/decisions.yaml#D-R0.1-INTENT-DUAL-LAYER"
+
+  - layer: "Resource Registration / Admission"
+    status: "OPEN"
+    responsibility_domains:
+      - "Provider declaration"
+      - "Registration authority"
+      - "Resource visibility"
+      - "Capability declaration acceptance"
+    current_responsibility:
+      - "Preserve the v0.4/v0.5 authoritative Node/Resource registration boundary with Owner Node, Lease, Endpoint, registration_id, and generation fencing."
+      - "Treat ProviderDeclaration and RegistrationRequest as boundary input data, not Kernel Objects or authority by themselves."
+      - "Consume an existing authoritative ResourceRecordView through the bounded K2-E local admission/projection bridge; the bridge preserves the legacy fence and is not proof of distributed or production admission."
+    not_currently_owned:
+      - "A Mesh-to-Kernel admission syscall or remote registration protocol."
+      - "Automatic authority from a Mesh Resource View, declaration, Resource ID, or provider claim."
+    open_items:
+      - "Define the broader validation and publication bridge from ProviderDeclaration/RegistrationRequest to an admitted Kernel Resource and accepted CapabilityDeclaration; the K2-E local bridge does not close this item."
+      - "Define how availability observations are associated with the admitted Resource without rewriting lifecycle."
+    source:
+      - "docs/resource-authority.md#reference-profile"
+      - "docs/resource-authority.md#reference-profile"
+      - "docs/resource-authority.md#reference-profile"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/resource-authority.md#reference-profile"
+
+  - layer: "Scope Domains"
+    status: "FROZEN"
+    responsibility_domains:
+      - "Execution authority scope"
+      - "Cross-layer terminology separation"
+    current_responsibility:
+      - "Interpret the current unqualified Handle/Context Scope field as ExecutionAuthorityScope only."
+      - "Enforce strict equality between CapabilityHandle.Scope and ExecutionContext.Scope in the current K1 boundary."
+      - "Keep AutonomyScope, IntentScope, RoleScope, and Mesh/Region meanings distinct and un-mapped."
+    not_currently_owned:
+      - "Scope hierarchy, inheritance, containment, delegation, or cross-domain authorization."
+      - "Treating Resource.Scope, Region, Mesh namespace, role eligibility, or Intent scope as Handle authority."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/resource-authority.md#reference-profile"
+      - "docs/kernel-userspace-boundary.md#scope-and-admission"
+
+  - layer: "Autonomous Kernel Loop"
+    status: "RESERVED"
+    responsibility_domains:
+      - "Persistent intent representation"
+      - "Observation and re-evaluation"
+      - "User Space policy and Task selection"
+    current_responsibility:
+      - "Retain the broader v0.7 observe/evaluate/choose/invoke/world-change/re-observe loop as an architecture success criterion."
+      - "Place a future admitted persistent KernelIntent representation between User Space Intent Formulation and the Observation/User Space evaluation portion of Gate B."
+      - "Keep Satisfaction Planning, workflow interpretation, policy, and Task behavior above the current Kernel capability boundary."
+      - "Keep business-semantic interpretation, satisfaction evaluation, reconciliation, and World Model construction outside the KernelIntent representation boundary."
+    not_currently_owned:
+      - "KernelIntent admission/persistence runtime, Intent evaluation, Scheduler, Planner, reconciliation, World Model construction, role migration, or autonomous-loop runtime in K2-E."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/task-model.md#root-and-child-ownership"
+      - "docs/kernel-userspace-boundary.md#ownership"
+
+  - layer: "Runtime"
+    status: "NEEDS_REVIEW"
+    risk:
+      - "concept_collision"
+    current_responsibility:
+      - "The legacy DTM Runtime executes mapped plans and propagates cancellation and deadlines through an execution port."
+      - "K2-E LocalRuntime remains the bounded local convergence facade and now uses Gate B Phase 1's allocation/dispatch/release path for its one controlled Provider call and audit publication."
+    boundary_note: "Runtime names both an existing legacy execution component and bounded Kernel facades; Gate B Phase 1 is not a syscall ABI, full runtime migration, scheduler, or autonomous loop, and the legacy and Kernel paths remain distinct."
+    source:
+      - "docs/kernel-userspace-boundary.md#ownership"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/resource-authority.md#reference-profile"
+
+  - layer: "Application/UserSpace"
+    status: "FROZEN"
+    current_responsibility:
+      - "Own UserIntent, Task creation, Task decomposition, Task lifecycle, requirements, application state, workflow interpretation, business policy, and task-level behavior outside Kernel."
+      - "Use User Space Intent Formulation to normalize or translate UserIntent into KernelIntentSpec when a future Kernel admission boundary is used; Satisfaction Planning and the mapping/generation strategy remain User Space policy."
+      - "Own interpretation of intent business semantics and any satisfaction evaluation or reconciliation policy that is not explicitly admitted to another boundary."
+      - "Own the external Task/Policy and execution-lineage contract, including the rule that one Child Task produces at most one concrete Capability execution request, at most one ExecutionRequest, and at most one Capability invocation."
+      - "Use Kernel capability authority only through the approved boundary and observe EventRecord read-only."
+    not_currently_owned:
+      - "KernelIntent object authority, EventRecord publication or rewriting, or implicit Handle creation from UserIntent/KernelIntent."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#ownership"
+      - "docs/kernel-userspace-boundary.md#intent-boundary"
+
+  - layer: "SDK"
+    status: "NEEDS_REVIEW"
+    current_responsibility:
+      - "No current SDK responsibility or external SDK contract is frozen."
+    boundary_note: "The K1 review excludes a Go User Space interface, and the internal Manager Go API is explicitly not an ABI; no SDK may be inferred from it."
+    source:
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"
+      - "docs/kernel-userspace-boundary.md#effective-state-and-governance"

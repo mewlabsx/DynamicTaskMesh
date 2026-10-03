@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DynamicTaskMesh 可观测性控制台</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">DTM / M7-VIS</p>
+        <h1>Mesh 可观测性控制台</h1>
+        <p class="subtitle">只读查看 Runtime、Resource、Task 与观测时间线。</p>
+      </div>
+      <div class="poll-status">
+        <span id="refresh-dot" class="status-dot"></span>
+        <span id="last-refresh">等待快照</span>
+      </div>
+    </header>
+
+    <section id="alert" class="alert hidden" aria-live="polite"></section>
+
+    <section id="lab-banner" class="lab-banner hidden" aria-live="polite">
+      <div>
+        <p class="eyebrow">LAB MODE / 测试控制</p>
+        <strong>隔离实验控制已启用</strong>
+        <span>这些按钮只作用于 manifest 明确声明的测试进程，不改变 DTM 控制面。</span>
+      </div>
+      <span class="pill warn">非只读</span>
+    </section>
+
+    <section class="overview-grid" aria-label="网格概览">
+      <article class="hero-card">
+        <div class="card-label">网格状态</div>
+        <div id="mesh-status" class="hero-value">—</div>
+        <div id="mesh-subtitle" class="muted">等待 Runtime 引导</div>
+      </article>
+      <article class="metric-card"><span>成员数</span><strong id="runtime-count">—</strong></article>
+      <article class="metric-card"><span>协调者</span><strong id="coordinator">—</strong></article>
+      <article class="metric-card"><span>动态 Core</span><strong id="core-state">—</strong></article>
+      <article class="metric-card"><span>权威服务</span><strong id="authority-state">—</strong></article>
+      <article class="metric-card"><span>入口服务</span><strong id="ingress-state">—</strong></article>
+      <article class="metric-card observer-card"><span>观察入口</span><strong id="observer-node">—</strong><small id="observer-detail">等待入口</small></article>
+    </section>
+
+    <section id="lab-panel" class="panel wide hidden">
+      <div class="panel-heading">
+        <div><p class="eyebrow">05 / LAB MODE</p><h2>测试控制</h2><p class="muted">Harness 进程状态与 DTM 成员状态分开显示。</p></div>
+        <span id="lab-session" class="pill">—</span>
+      </div>
+      <div class="lab-actions">
+        <button class="lab-button primary" data-lab-action="/api/lab/tasks/greenhouse">运行温室示例任务</button>
+        <button class="lab-button danger" data-lab-action="/api/lab/coordinator/stop" data-lab-confirm="确认停止当前协调者进程？这只是故障注入，不会执行自动切换。">停止当前协调者</button>
+        <button class="lab-button" data-lab-action="/api/lab/reset" data-lab-confirm="确认重置演示？这会停止并重新启动 manifest 中的全部测试 Runtime，不删除 DTM 数据。">重置演示</button>
+      </div>
+      <div id="lab-operation" class="lab-operation muted">尚未执行 LAB 操作。</div>
+      <div id="lab-runtime-list" class="lab-runtime-list"><div class="empty">暂无 Harness Runtime。</div></div>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel wide">
+        <div class="panel-heading"><div><p class="eyebrow">01 / 运行时网格</p><h2>Runtime / 节点列表</h2></div><span id="coordinator-state" class="pill">—</span></div>
+        <div class="table-wrap"><table><thead><tr><th>节点</th><th>运行时角色</th><th>成员状态</th><th>角色</th><th>Core</th><th>权威服务</th><th>控制端点</th></tr></thead><tbody id="runtime-body"><tr><td colspan="7" class="empty">暂时没有 Runtime 观测。</td></tr></tbody></table></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">02 / 资源视图</p><h2>资源</h2></div><span id="resource-count" class="pill">0</span></div>
+        <div id="resource-list" class="stack"><div class="empty">暂时没有 Resource 广告。</div></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">03 / 任务</p><h2>任务列表</h2></div><span id="task-count" class="pill">0</span></div>
+        <div id="task-list" class="stack"><div class="empty">暂时没有观测到任务。</div></div>
+      </article>
+
+      <article class="panel wide">
+        <div class="panel-heading"><div><p class="eyebrow">04 / 观测事件</p><h2>事件时间线</h2></div><span class="pill neutral" title="synthetic diff">观测差异（非权威）</span></div>
+        <ol id="timeline" class="timeline"><li class="empty">暂时没有观测事件。</li></ol>
+      </article>
+    </section>
+
+    <footer>
+      <span title="UI_READ_ONLY=YES">界面只读：是</span>
+      <span title="RUNTIME_DEPENDS_ON_UI=NO">运行时依赖界面：否</span>
+      <span title="PROTO_CHANGE=0">Proto 变更：0</span>
+      <span title="SCHEMA_CHANGE=0">Schema 变更：0</span>
+    </footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

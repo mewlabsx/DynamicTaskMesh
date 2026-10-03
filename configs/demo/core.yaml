@@ -1,0 +1,15 @@
+server:
+  address: "127.0.0.1:50051"
+lease:
+  ttl: "5s"
+  sweep_interval: "500ms"
+storage:
+  driver: "sqlite"
+  path: "../../data/demo-dtm.db"
+  journal_mode: "WAL"
+  synchronous: "NORMAL"
+  busy_timeout: "5s"
+  auto_migrate: true
+retry:
+  max_attempts: 3
+  backoff: "100ms"
