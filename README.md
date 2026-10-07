@@ -1,5 +1,7 @@
 # Dynamic Task Mesh (DTM)
 
+[简体中文](README.zh-CN.md)
+
 > **An experimental, task-oriented Resource orchestration project.**
 > It does not try to be a "task runtime" — quite the opposite: it separates **mechanism from business policy** completely. The Kernel only governs execution correctness and authority boundaries; business semantics, planning and scheduling policy all stay in User Space.
 >
@@ -609,6 +611,3 @@ This is a personally maintained project focused on sharing code and technical do
 ---
 
 <sub>This document is a README draft aimed at readers encountering the project for the first time, supplementing the scope statement in the root `README.md` with a conceptual and structural view. All factual statements are taken from the five YAML files in `architecture/`, the existing documents in `docs/`, and the local code structure; no capability that is not declared is described as implemented. Code-size and build/test results are locally reproduced records.</sub>
-
-
-[简体中文](README.zh-CN.md)

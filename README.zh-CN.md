@@ -1,5 +1,7 @@
 # Dynamic Task Mesh (DTM)
 
+[English](README.md) | 简体中文
+
 > **一个实验性的、以任务为中心的 Resource 编排项目。**
 > 它不试图成为"任务运行时"——恰恰相反，它把**机制与业务策略彻底分开**：内核只管执行正确性与授权边界，业务语义、规划、调度策略全部留在 User Space。
 >
@@ -591,6 +593,3 @@ Copyright (c) 2026 Zhao Tao（赵涛）。
 ---
 
 <sub>本文档为 README 草稿，面向"第一次接触本项目"的读者，补充 `README.md`（范围声明）之外的概念与结构视角。所有事实性表述均取自 `architecture/` 五份 YAML、`docs/` 现有文档与本地代码结构；未声明的能力一律不作为已实现能力描述。代码规模与构建/测试结果为本机复现记录。</sub>
-
-
-[English](README.md)
