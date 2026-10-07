@@ -1,5 +1,7 @@
 # Execution contract
 
+[简体中文](execution-contract.zh-CN.md)
+
 ## Logical facade
 
 The accepted Logical Execution Facade provides RequestExecution, ObserveInvocation and SubmitOccupancyResolution within one local Kernel lifetime. It exposes immutable value snapshots through a narrow port; callers need no internal Manager pointers, mutable objects or locks. It is an in-process semantic contract, not a physical syscall, RPC, wire/authentication protocol or persistence ABI. Physical ABI is DEFERRED.
@@ -39,6 +41,3 @@ Structural validation may observe a point-in-time snapshot. Last-mile revalidati
 Mandatory EventRecord atomic coupling is limited to the accepted delayed Phase 2 same-fence resolution. Immediate definitive ENDED in DispatchExecution, allocation, ordinary dispatch/observation/release do not claim identical event coupling. There is no generic all-transitions event atomicity, general multi-manager transaction, global linearizability or global snapshot isolation. External Phase 2 resolution must remain visible to the facade; a facade-local marker is not occupancy authority, nor can allocation existence imply crossing.
 
 The pre-freeze logical facade implementation is accepted/verified within its bounded scope; its recorded milestone_closed remains NO. Gate B Phase 1 and Phase 2 are bounded CLOSED, Full Gate B is RESERVED, KernelIntent runtime is NOT_IMPLEMENTED, and Final Architecture Freeze is NOT_CLAIMED. These distinct statuses do not change through this documentation consolidation. See [status](status.md), [authority](resource-authority.md) and [recovery](recovery-idempotency.md).
-
-
-[简体中文](execution-contract.zh-CN.md)

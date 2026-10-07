@@ -1,5 +1,7 @@
 # DTM 代码地图
 
+[English](code-map.md) | 简体中文
+
 > **从"我想改某样东西"出发的索引。**
 > 本文档回答三个问题：**哪个二进制做什么**、**哪个包负责什么**、**契约与迁移在哪里**。
 >
@@ -364,6 +366,3 @@ api/proto/dtm/v1/*_proto_test.go  proto 契约测试
 ---
 
 <sub>本文档是代码地图草稿。包职责取自各包源码注释与 README；代码规模、端口、默认值与命令参数为本机对公开版源码的复现统计（Go 1.24.4 / Windows amd64）。<strong>本文档不构成能力声明</strong>——某包存在不代表对应能力已实现，能力状态以 <code>docs/status.md</code> 与 <code>architecture/baseline.yaml</code> 为准。</sub>
-
-
-[English](code-map.md)

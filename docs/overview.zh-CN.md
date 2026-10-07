@@ -40,7 +40,6 @@ User Space 拥有业务解释与策略。US-3 只把已决定的任务具体化�
 
 UserIntent 属于 User Space。KernelIntentSpec 和 KernelIntent 描述未来不透明表示的边界，当前 Intent 校验仍禁用。完整自主 Gate B、生产 admission、新 Kernel 持久化、远程 ABI 与最终 Architecture Freeze 均不在当前声明内。
 
-
 ## 参考状态与任务边界
 
 既有 SQLite 路径拥有自己的 Task/Step/Execution 记录、提交键及保守重启行为。提交去重和执行 attempt 重放保护不同边界，均不能保证副作用恰好一次或 Kernel 权威持久化。Resource Invocation 仍是有限范围原生 gRPC 参考，不意味着 Binary transport 或更广泛的冻结实现。

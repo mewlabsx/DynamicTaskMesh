@@ -1,5 +1,7 @@
 # Resource identity and authority
 
+[简体中文](resource-authority.zh-CN.md)
+
 ## Reference profile
 
 A Resource is an autonomous/provider ownership boundary, not a Capability, device or network address. A Resource explicitly declares CapabilityDeclaration; a declaration can produce CapabilityInstance, and CapabilityHandle references an instance within ExecutionContext. Identity is distinct from locator, endpoint and topology. Device/bus mapping belongs behind Owner/Gateway adapters. Discovery advertises candidate facts; it is not authorization.
@@ -25,6 +27,3 @@ Allocation fixes an immutable ExecutionDescriptor/ExecutionAllocation binding: C
 Execution Authority, Provider Authority and Occupancy Resolution Authority are separate. ResolutionEvidence is transition input, not a Kernel Object or proof by itself. An independently admitted trusted Resource-side evidence source must supply or vouch for resolution authority. A User Space request cannot create, infer or elevate it; the facade must not obtain a Resource-issued authority solely because a caller asked to resolve an allocation.
 
 Authority and evidence must bind the exact allocation, Resource and same OwnershipFence. A newer fence grants no retrospective authority over an old UNKNOWN allocation. Fence advancement alone is not termination evidence. Ordinary observation, cancellation, timeout and Resource unavailability do not authorize claim release. See [execution contract](execution-contract.md) and [recovery/idempotency](recovery-idempotency.md).
-
-
-[简体中文](resource-authority.zh-CN.md)

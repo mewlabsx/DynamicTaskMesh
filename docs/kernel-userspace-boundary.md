@@ -1,5 +1,7 @@
 # Kernel and User Space boundary
 
+[简体中文](kernel-userspace-boundary.zh-CN.md)
+
 ## Ownership
 
 Kernel owns structural Resource/Capability/Context/Handle validation, exact execution allocation, controlled Provider dispatch, bounded occupancy resolution and immutable EventRecord facts. Manager Go APIs are internal implementation APIs, not a User Space syscall or security ABI. User Space owns business interpretation, planning, scheduling policy, Task generation, World Model, satisfaction evaluation, reconciliation and retry policy. Task is external policy-managed data, not a Kernel Object. An Agent or LLM is optional policy outside deterministic Kernel mechanisms.
@@ -25,6 +27,3 @@ The local K2-E bridge consumes an already-authoritative ResourceRecordView. Proj
 The five current [Architecture State YAML files](../architecture/README.md) record effective facts and scoped supersession. The retained [semantic governance sign-off](../architecture/reviews/kernel-semantic-freeze-governance-signoff-2026-09-06.md) freezes the reviewed semantic envelope. A later ordinary document, test, refactor or newer timestamp does not supersede it. Changing a frozen boundary requires an explicit scoped decision, Boundary Delta, review and governance approval.
 
 R0 remains a carried-forward checkpoint/FREEZE_CANDIDATE. DEFERRED, RESERVED, OPEN and NEEDS_REVIEW are not FORBIDDEN or REMOVED. Current semantic governance FROZEN does not establish Final Architecture Freeze, which remains NOT_CLAIMED. Full Gate B remains RESERVED and future mechanisms need separate design and authorization. See [status](status.md); historical acceptance states are not fresh release validation.
-
-
-[简体中文](kernel-userspace-boundary.zh-CN.md)

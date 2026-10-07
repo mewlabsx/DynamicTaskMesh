@@ -1,5 +1,7 @@
 # Task model
 
+[简体中文](task-model.zh-CN.md)
+
 ## Two execution profiles
 
 The existing Core/Agent profile models Task, Step and Execution: a Task contains work, a Step is its schedulable unit, and an Execution records an attempt on a selected target. Planner, Mapper and Runtime cooperate with the gRPC Agent. SQLite persists this profile's records. This path has not been replaced by, or fully integrated with, the bounded Kernel/User Space components.
@@ -21,6 +23,3 @@ A cancellation request at User Space is not proof of Provider termination, ENDED
 ## Code and related contracts
 
 See [User Space](../internal/userspace/), [task creation](../internal/userspace/taskcreation/), [Root runtime](../internal/userspace/roottask/) and [execution contract](execution-contract.md). [Integration](integration.md) describes the conditions for replacing parallel profiles with one supported path.
-
-
-[简体中文](task-model.zh-CN.md)

@@ -1,5 +1,7 @@
 # Selected development history
 
+[简体中文](history.zh-CN.md)
+
 The locally reachable development history contains 176 commits from July 26 to September 11, 2026, spanning about 47 days. This is the span of available records, not proof of the original project start date or uninterrupted daily work.
 
 Dates below are original committer dates in UTC+08:00. IDs identify the original development repository; this snapshot excludes that development Git history and starts with independent history, so these IDs may not resolve in the public repository.
@@ -22,6 +24,3 @@ Working-tree documents dated September 30 separately describe the experimental G
 Detailed historical reports, raw archives and repeated process records are not shipped with this summary. The local archive preserves the 79 records excluded after review, plus backups of retained material. The original development repository also retains its source documents. No historical commits or acceptance dates were rewritten to create this timeline.
 
 Author time, committer time, document date and acceptance date are distinct. Historical PASS applies to its recorded source, environment and scope; current checks are listed in [validation](validation.md). Current architecture is governed by [Architecture State](../architecture/README.md), with necessary references in [contracts](contracts.md).
-
-
-[简体中文](history.zh-CN.md)

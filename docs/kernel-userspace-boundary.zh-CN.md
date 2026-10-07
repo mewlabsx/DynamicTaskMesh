@@ -1,5 +1,7 @@
 # Kernel 与 User Space 边界
 
+[English](kernel-userspace-boundary.md) | 简体中文
+
 ## 责任归属
 
 Kernel 负责 Resource/Capability/Context/Handle 结构验证、精确执行分配、受控 Provider 派发、有限占用解析和不可变 EventRecord 事实。Manager 的 Go API 是内部实现 API，不是 User Space syscall 或安全 ABI。User Space 负责业务解释、规划、调度策略、Task 生成、World Model、满足度求值、核对和重试策略。Task 是外部策略管理的数据，不是 Kernel Object。Agent 或 LLM 是确定性 Kernel 机制之外的可选策略。
@@ -25,6 +27,3 @@ ExecutionAuthorityScope 要求 Context/Handle 严格相等，不授予层级权�
 五份当前[架构状态 YAML](../architecture/README.md)记录生效事实及有范围的替代关系。保留的[语义治理签署](../architecture/reviews/kernel-semantic-freeze-governance-signoff-2026-09-06.md)冻结已审查的语义范围。普通新文档、测试、重构或较新日期不能覆盖它。修改冻结边界需要显式限定范围的决策、Boundary Delta、审查和治理批准。
 
 R0 仍是延续的阶段检查点/FREEZE_CANDIDATE。DEFERRED、RESERVED、OPEN、NEEDS_REVIEW 不等于 FORBIDDEN 或 REMOVED。当前语义治理 FROZEN 不等于最终架构冻结；Final Architecture Freeze 仍为 NOT_CLAIMED。Full Gate B 仍为 RESERVED，未来机制需要单独设计和授权。参见[状态](status.zh-CN.md)；历史验收状态不是本次发行的新验证。
-
-
-[English](kernel-userspace-boundary.md)

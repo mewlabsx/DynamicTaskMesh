@@ -1,5 +1,7 @@
 # 恢复与幂等
 
+[English](recovery-idempotency.md) | 简体中文
+
 ## 持久化参考路径
 
 Core/Agent 参考路径在 SQLite 中保存 Task/Step/Execution、提交键与 Resource 记录。Migration 只追加。注册身份/generation、Owner Lease、Endpoint 验证仍必需。Resource 原子持久化先于目录发布；该路径以数据库状态为权威，不以乐观内存视图为权威。
@@ -19,6 +21,3 @@ InvocationID+精确 InvocationBinding 防止等价提交导致第二次本地 al
 跨 fence 解析、归属权威迁移、取消/终止、持久 Kernel 恢复、远程核对均未纳入实现范围。较新 fence 不能推定旧 UNKNOWN 执行已终止。整合两条路径需要明确持久化权威、副作用身份、归属/lease/fence 映射、崩溃边界，再提供故障/重启证据；仅连接包或保留两套日志不足以完成整合。
 
 参见[执行](execution-contract.zh-CN.md)、[权威](resource-authority.zh-CN.md)、[整合](integration.zh-CN.md)、[验证](validation.zh-CN.md)。历史 PASS 描述原基线，不是新 Kernel 当前崩溃恢复证据。
-
-
-[English](recovery-idempotency.md)

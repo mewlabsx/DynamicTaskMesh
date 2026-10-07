@@ -1,5 +1,7 @@
 # Capability status
 
+[简体中文](status.zh-CN.md)
+
 Software line: v0.7. Kernel specification: v0.1. This describes current source and existing evidence; current candidate validation is recorded separately in [validation](validation.md).
 
 | Area | Source / status | Boundary |
@@ -21,11 +23,6 @@ Software line: v0.7. Kernel specification: v0.1. This describes current source a
 The current semantic freeze does not establish final Architecture Freeze. Full autonomous Gate B, KernelIntent runtime, production Resource Admission, broader authorization, new-Kernel persistence and remote protocols remain outside implemented claims. Future scope remains future scope, not a permanent architectural prohibition.
 
 Existing historical PASS records describe their own source versions, environments and bounded tests. Raw evidence archives referenced in them are not shipped here and have not been reverified for this candidate. The absence of those archives must not be presented as fresh verification.
-
-
-[简体中文](status.zh-CN.md)
-
-
 
 ## Recorded status
 

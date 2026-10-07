@@ -1,5 +1,7 @@
 # Architecture overview
 
+[简体中文](overview.zh-CN.md)
+
 DTM keeps task policy, resource identity and execution boundaries explicit. The repository contains several evolutionary layers; their capabilities must not be combined into an unverified single production system.
 
 ## Existing execution reference
@@ -43,5 +45,3 @@ UserIntent belongs to User Space. KernelIntentSpec and KernelIntent describe a p
 The existing SQLite profile owns its Task/Step/Execution records, submission keys and conservative restart behavior. Submission deduplication and execution attempt replay protect different boundaries; neither establishes exactly-once side effects or persistent Kernel authority. Resource Invocation remains the bounded native gRPC reference; no Binary transport or broader frozen implementation is implied.
 
 User Space owns local work and task projections, explicit Child selection, Root closure predicates and already-decided task creation. Kernel owns execution allocation, authority and occupancy facts. Child snapshots inform Root evaluation; successful Child execution alone is not Root goal success. These new task mechanisms are in-process and do not inherit the reference profile's SQLite recovery automatically. Removing historical implementation reports from this release does not change these code boundaries or acceptance states.
-
-[简体中文](overview.zh-CN.md)

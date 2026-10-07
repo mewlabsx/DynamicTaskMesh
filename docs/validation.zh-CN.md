@@ -1,5 +1,7 @@
 # 候选版本验证
 
+[English](validation.md) | 简体中文
+
 日期：2026 年 10 月 3 日（Asia/Shanghai）。环境：Windows/amd64、Go 1.24.12。本记录适用于包含 18 个双语主题的精简公开目录，来源为选定开发基线加仅用于公开准备的文档和文档检查迁移。
 
 ## 范围修订
@@ -28,5 +30,3 @@
 此前准备运行了 Core/两个模拟 Agent 的快速入门、同步提交、get/executions/list 查询，并重复带键异步提交，返回相同 Task ID 和 deduplicated=true。这些进程检查在相同生产源码上通过，本次文档收敛没有重复。它们不证明优雅关闭、崩溃恢复、多虚拟机验收或新 Kernel 持久化。
 
 协议重新生成 NOT RUN，因为 protoc 和 Go 生成器不可用。本次没有新增 race/fuzz 门禁、Linux/macOS 运行、性能研究、完整敏感信息审计或原始历史证据重新验证。日志、来源/引用映射及私有来源哈希保存在本地，不进入公开清单。依赖许可见[第三方声明](../THIRD_PARTY_NOTICES.md)。参见[发布范围](release-readiness.zh-CN.md)。
-
-[English](validation.md)

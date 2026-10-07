@@ -1,5 +1,7 @@
 # Runtime integration direction
 
+[简体中文](integration.zh-CN.md)
+
 The current Core/Agent commands use the existing reference execution profile. The bounded Kernel and User Space implementation is separate. This preview does not claim an integrated autonomous runtime.
 
 The next integration direction is one primary execution path: explicit task input -> User Space task/execution orchestration -> Kernel logical facade -> a Provider adapter -> existing Agent execution. Existing CLI, transport and query functionality should be reused where their contracts remain valid.
@@ -13,6 +15,3 @@ The first accepted integrated profile must demonstrate real command-to-Agent exe
 The default path can switch only when public primary scenarios, query/idempotency behavior and the stated recovery guarantees are covered, no old scheduler bypass remains, and independent review has no blocking findings. Old execution ownership logic can then retire; reusable compatibility adapters may remain.
 
 The intent is to avoid two parallel feature-development tracks: new execution features should target the Kernel/User Space boundary, with the old profile limited to necessary compatibility and correctness work during migration. This document proposes direction; it does not authorize implementation or change frozen milestone statuses. Full autonomous operation, Intent runtime and broader admission are not prerequisites for the first bounded profile.
-
-
-[简体中文](integration.zh-CN.md)

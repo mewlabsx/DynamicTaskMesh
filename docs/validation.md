@@ -1,5 +1,7 @@
 # Candidate validation
 
+[简体中文](validation.zh-CN.md)
+
 Date: October 3, 2026 (Asia/Shanghai). Windows/amd64, Go 1.24.12. This record applies to the compact public tree with 18 bilingual documentation topics, assembled from the selected development baseline plus publication-only documentation and document-check migrations.
 
 ## Scope revision
@@ -28,5 +30,3 @@ The old 147-to-69 and later 55-original-document preparations were intermediate 
 Earlier preparation ran the Core/two simulated Agents quickstart, synchronous submission and get/executions/list queries, plus repeated keyed async admission with the same Task ID and deduplicated=true. Those process checks passed on the same production source and were not repeated for this documentation convergence. They do not prove graceful shutdown, crash recovery, multi-VM acceptance or new Kernel persistence.
 
 Protocol regeneration was NOT RUN because protoc and the Go generators were unavailable. No new race/fuzz gate, Linux/macOS run, performance study, complete secret audit or raw historical evidence revalidation was performed here. Logs, source/reference mappings and private-source hashes are retained locally outside the publication manifest. Dependency licenses are documented in [third-party notices](../THIRD_PARTY_NOTICES.md). See [release scope](release-readiness.md).
-
-[简体中文](validation.zh-CN.md)

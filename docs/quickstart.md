@@ -1,5 +1,7 @@
 # Quickstart: submit and query a local task
 
+[简体中文](quickstart.zh-CN.md)
+
 This walkthrough uses the existing Core/Agent execution reference with simulated temperature and cooling capabilities. It does not invoke the new Kernel Goal Loop or real equipment. Run every command from the candidate root.
 
 ## Requirements and build
@@ -69,6 +71,3 @@ Replace `<returned-task-id>` with the actual value before running. Additional co
 Press Ctrl+C in each Agent terminal and then in the Core terminal. Keep state if you want to inspect existing tasks after restart. For a fresh demonstration, first stop all processes, then move the candidate's `data/` directory to a backup location of your choice. Do not remove a live database or assume restart automatically retries uncertain side effects.
 
 If a service cannot bind, check for another process using its port. If registration does not complete, confirm that all three configurations use the same Core address. Storage startup errors should be investigated before submitting work; do not edit migration history to bypass them.
-
-
-[简体中文](quickstart.zh-CN.md)

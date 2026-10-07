@@ -1,5 +1,7 @@
 # Reference execution examples
 
+[简体中文](examples.zh-CN.md)
+
 First complete the [quickstart](quickstart.md). All examples use the Core/Agent reference profile and simulated capabilities. Windows commands run from the candidate root.
 
 ## Submission deduplication
@@ -39,6 +41,3 @@ Use a fresh stopped-and-backed-up demo state, start only Core and the temperatur
 ## Kernel and experimental work
 
 Inspect `internal/kernel` and `internal/userspace` tests to explore same-fence resolution, UNKNOWN preservation and explicit task closure. These are local mechanism tests. The separately held Goal Loop and Workbench need final acceptance before joining a public example set.
-
-
-[简体中文](examples.zh-CN.md)

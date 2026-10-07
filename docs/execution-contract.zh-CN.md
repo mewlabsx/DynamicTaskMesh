@@ -1,5 +1,7 @@
 # 执行契约
 
+[English](execution-contract.md) | 简体中文
+
 ## 逻辑 facade
 
 已接受的 Logical Execution Facade 在同一本地 Kernel 生命周期内提供 RequestExecution、ObserveInvocation、SubmitOccupancyResolution。它通过窄端口提供不可变值快照；调用方无需内部 Manager 指针、可变对象或锁。这是进程内语义契约，不是物理 syscall、RPC、线协议/认证协议或持久化 ABI。物理 ABI 为 DEFERRED。
@@ -39,6 +41,3 @@ SubmitOccupancyResolution 要求独立准入的可信 Resource 侧权威来源�
 强制 EventRecord 原子耦合仅限接受的 Phase 2 延迟同 fence 解析。DispatchExecution 中即时确定 ENDED、allocation、普通派发/观察/释放不承诺相同事件耦合。不提供通用全转换事件原子性、通用跨 Manager 事务、全局线性化或全局快照隔离。外部 Phase 2 解析必须对 facade 可见；facade 本地标记不是占用权威，也不能从 allocation 存在推断 crossing。
 
 预冻结逻辑 facade 实现在有限范围内已接受/验证，但记录的 milestone_closed 仍为 NO。Gate B Phase 1/2 在有限范围内 CLOSED；Full Gate B 为 RESERVED；KernelIntent runtime 为 NOT_IMPLEMENTED；Final Architecture Freeze 为 NOT_CLAIMED。这次文档收敛不改变这些不同状态。参见[状态](status.zh-CN.md)、[权威](resource-authority.zh-CN.md)、[恢复](recovery-idempotency.zh-CN.md)。
-
-
-[English](execution-contract.md)

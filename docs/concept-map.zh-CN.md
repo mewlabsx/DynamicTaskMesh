@@ -1,5 +1,7 @@
 # DTM Kernel 概念地图
 
+[English](concept-map.md) | 简体中文
+
 > **这份文档是 [`architecture/concepts.yaml`](../architecture/concepts.yaml) 的阅读地图。**
 > `concepts.yaml` 是**权威定义**；本文档不重复它的 `definition` 字段，而是补上它没有的三样东西：
 > **① 概念之间的对象关系；② 建议的阅读顺序；③ 容易混淆的术语避坑清单。**
@@ -339,6 +341,3 @@ KernelIntent            ← Kernel 拥有：身份、持久化/生命周期、re
 ---
 
 <sub>本文档是概念地图草稿，配合 [`architecture/concepts.yaml`](../architecture/concepts.yaml) 使用。凡与 YAML 权威记录冲突之处，以 YAML 为准。对象链与状态词汇取自 `concepts.yaml`、`invariants.yaml`、`boundaries.yaml` 与 `docs/` 四篇契约文档；`kernel_object: false` 标记取自 `concepts.yaml` 各条目字段。</sub>
-
-
-[English](concept-map.md)

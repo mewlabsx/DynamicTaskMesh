@@ -1,5 +1,7 @@
 # DTM Code Map
 
+[简体中文](code-map.zh-CN.md)
+
 > **An index that starts from "I want to change something".**
 > This document answers three questions: **which binary does what**, **which package is responsible for what**, and **where the contracts and migrations live**.
 >
@@ -364,6 +366,3 @@ api/proto/dtm/v1/*_proto_test.go  proto contract tests
 ---
 
 <sub>This document is a code-map draft. Package responsibilities are taken from each package's source comments and README; code sizes, ports, defaults and command flags are locally reproduced statistics against the public source (Go 1.24.4 / Windows amd64). <strong>This document is not a capability claim</strong> — a package existing does not mean the corresponding capability is implemented; capability status is governed by <code>docs/status.md</code> and <code>architecture/baseline.yaml</code>.</sub>
-
-
-[简体中文](code-map.zh-CN.md)

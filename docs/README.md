@@ -1,5 +1,7 @@
 # Documentation
 
+[简体中文](README.zh-CN.md)
+
 This directory contains 18 current topics in English and Chinese. Historical detailed design and review records are retained locally, outside the public source tree.
 
 ## Use and understand
@@ -18,6 +20,3 @@ This directory contains 18 current topics in English and Chinese. Historical det
 - [Contributing](../CONTRIBUTING.md).
 
 Current topic contracts and machine-readable Architecture State preserve scope distinctions. Historical acceptance is not fresh validation or proof of a fully integrated production runtime. The public snapshot excludes original development Git history.
-
-
-[简体中文](README.zh-CN.md)

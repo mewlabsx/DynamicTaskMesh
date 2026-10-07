@@ -1,5 +1,7 @@
 # 资源身份与权威
 
+[English](resource-authority.md) | 简体中文
+
 ## 参考路径
 
 Resource 是自治/提供方归属边界，不等于 Capability、设备或网络地址。Resource 显式声明 CapabilityDeclaration；声明可产生 CapabilityInstance，CapabilityHandle 在 ExecutionContext 中引用实例。身份与 locator、endpoint、拓扑不同。设备/总线映射位于 Owner/Gateway 适配层之后。发现公布候选事实，不构成授权。
@@ -25,6 +27,3 @@ Allocation 固定不可变 ExecutionDescriptor/ExecutionAllocation 绑定：Cont
 Execution Authority、Provider Authority、Occupancy Resolution Authority 相互独立。ResolutionEvidence 是状态转换输入，不是 Kernel Object，也不单独构成证明。独立准入的可信 Resource 侧证据来源必须提供或担保解析权威。User Space 请求不能创建、推断或提升它；facade 不能仅因调用方请求解析就取得 Resource 发行的权威。
 
 权威和证据必须绑定精确 allocation、Resource、相同 OwnershipFence。较新 fence 对旧 UNKNOWN allocation 不授予追溯权威；fence 推进本身不证明终止。普通观察、取消、超时、Resource 不可用不授权释放 claim。参见[执行契约](execution-contract.zh-CN.md)与[恢复及幂等](recovery-idempotency.zh-CN.md)。
-
-
-[English](resource-authority.md)

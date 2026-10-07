@@ -1,5 +1,7 @@
 # Recovery and idempotency
 
+[简体中文](recovery-idempotency.zh-CN.md)
+
 ## Persisted reference profile
 
 The Core/Agent reference profile persists Task/Step/Execution state, submission keys and Resource records in SQLite. Migrations are append-only. Registration identity/generation, Owner Lease and Endpoint validation remain required. Atomic Resource persistence precedes publication into the directory; database state, not an optimistic memory view, is authoritative for that profile.
@@ -19,6 +21,3 @@ Only trusted Resource-authoritative evidence bound to the exact allocation and s
 Cross-fence resolution, ownership authority migration, cancellation/termination, durable Kernel recovery and remote reconciliation remain outside implemented scope. A newer fence cannot terminate an older UNKNOWN execution by implication. Integrating the profiles requires an explicit decision about persistence authority, effect identity, ownership/lease/fence mapping and crash boundaries, followed by fault/restart evidence; linking packages or retaining both logs is insufficient.
 
 See [execution](execution-contract.md), [authority](resource-authority.md), [integration](integration.md) and [validation](validation.md). Historical PASS describes its original baseline; it is not current crash-recovery evidence for the new Kernel.
-
-
-[简体中文](recovery-idempotency.zh-CN.md)

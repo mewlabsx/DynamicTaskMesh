@@ -1,5 +1,7 @@
 # DTM Kernel Concept Map
 
+[简体中文](concept-map.zh-CN.md)
+
 > **This document is a reading map for [`architecture/concepts.yaml`](../architecture/concepts.yaml).**
 > `concepts.yaml` is the **authoritative definition**; this document does not repeat its `definition` fields. It supplies the three things that file does not:
 > **① the relations between concepts; ② a suggested reading order; ③ a terminology trap list.**
@@ -352,6 +354,3 @@ For someone meeting the Kernel object model for the first time:
 ---
 
 <sub>This document is a concept-map draft, intended for use alongside [`architecture/concepts.yaml`](../architecture/concepts.yaml). Where it conflicts with the authoritative YAML records, the YAML prevails. The object chain and state vocabularies are taken from `concepts.yaml`, `invariants.yaml`, `boundaries.yaml` and the four contract documents in `docs/`; the `kernel_object: false` markers are taken from the corresponding `concepts.yaml` entries.</sub>
-
-
-[简体中文](concept-map.zh-CN.md)

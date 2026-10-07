@@ -1,5 +1,7 @@
 # 任务模型
 
+[English](task-model.md) | 简体中文
+
 ## 两条执行路径
 
 现有 Core/Agent 路径使用 Task、Step、Execution：Task 承载任务，Step 是可调度的工作单元，Execution 记录选定目标上的一次执行尝试。Planner、Mapper、Runtime 与 gRPC Agent 协作，SQLite 保存这条路径的记录。它尚未被新的 Kernel/User Space 组件替代，也未与后者完成整合。
@@ -21,6 +23,3 @@ User Space 的取消请求不证明 Provider 已终止、占用已 ENDED 或 Res
 ## 代码与相关契约
 
 参见 [User Space](../internal/userspace/)、[任务创建](../internal/userspace/taskcreation/)、[Root runtime](../internal/userspace/roottask/) 和[执行契约](execution-contract.zh-CN.md)。[整合方向](integration.zh-CN.md)说明何时可将两条路径收敛为统一支持的路径。
-
-
-[English](task-model.md)
