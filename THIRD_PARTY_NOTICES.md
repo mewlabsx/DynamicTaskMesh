@@ -1,5 +1,7 @@
 # Third-party notices
 
+[简体中文](THIRD_PARTY_NOTICES.zh-CN.md)
+
 This file records the Go dependencies declared by this local candidate on October 3, 2026. DTM's own licensing statement is in [README](README.md) and [LICENSE](LICENSE); this inventory does not transfer third-party rights to the DTM copyright holder.
 
 The current Windows package and test selection uses 16 external modules. The 17th declared module, github.com/google/uuid, is not used by that selection; its license is retained separately below. Modules present only in the transitive module graph are not represented as shipped components. No dependency source code is vendored here.

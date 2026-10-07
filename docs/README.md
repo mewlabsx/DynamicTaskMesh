@@ -17,6 +17,6 @@ This directory contains 18 current topics in English and Chinese. Historical det
 - [Protocol generation](protocol-generation.md).
 - [Validation](validation.md) and [release readiness](release-readiness.md).
 - [Selected history](history.md): concise timeline and evidence limitations.
-- [Contributing](../CONTRIBUTING.md).
+- [Contributing](../CONTRIBUTING.md) and [third-party notices](../THIRD_PARTY_NOTICES.md).
 
 Current topic contracts and machine-readable Architecture State preserve scope distinctions. Historical acceptance is not fresh validation or proof of a fully integrated production runtime. The public snapshot excludes original development Git history.

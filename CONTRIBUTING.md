@@ -1,5 +1,7 @@
 # Contributing
 
+[简体中文](CONTRIBUTING.zh-CN.md)
+
 This is a personally maintained AGPL-3.0-only source preview. The maintainer does not commit to accepting pull requests or to response times. The following describes development boundaries for anyone inspecting or modifying the source.
 
 Read [architecture authority](architecture/README.md), [status](docs/status.md) and [AGENTS.md](AGENTS.md) before changing contracts. Keep task policy in User Space, preserve Resource/Capability identity boundaries, append migrations, and retain compatibility profiles. A completed local milestone does not authorize a future one.

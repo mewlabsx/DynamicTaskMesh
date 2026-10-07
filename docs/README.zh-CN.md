@@ -17,6 +17,6 @@
 - [协议生成](protocol-generation.zh-CN.md)。
 - [验证](validation.zh-CN.md)与[发行准备](release-readiness.zh-CN.md)。
 - [精选历史](history.zh-CN.md)：精简时间线与证据限制。
-- [贡献说明](../CONTRIBUTING.md)。
+- [贡献说明](../CONTRIBUTING.zh-CN.md)与[第三方授权说明](../THIRD_PARTY_NOTICES.zh-CN.md)。
 
 当前主题契约与机器可读架构状态保留范围差异。历史验收不是新的验证，也不证明已形成完全整合的生产运行时。公开快照不包含原开发 Git 历史。
