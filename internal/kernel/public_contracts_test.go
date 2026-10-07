@@ -82,11 +82,11 @@ func TestPublicDesignScopeHasNoHistoricalTree(t *testing.T) {
 		t.Fatal(err)
 	}
 	topics := map[string]bool{}
-	for _, name := range []string{"README", "quickstart", "examples", "overview", "status", "contracts", "task-model", "kernel-userspace-boundary", "execution-contract", "resource-authority", "recovery-idempotency", "protocol-generation", "validation", "release-readiness", "integration", "history"} {
+	for _, name := range []string{"README", "quickstart", "examples", "overview", "status", "contracts", "task-model", "kernel-userspace-boundary", "execution-contract", "resource-authority", "recovery-idempotency", "protocol-generation", "validation", "release-readiness", "integration", "history", "concept-map", "code-map"} {
 		topics[name] = true
 	}
-	if len(entries) != 32 {
-		t.Fatalf("public docs contains %d files, want 16 bilingual topics", len(entries))
+	if len(entries) != 36 {
+		t.Fatalf("public docs contains %d files, want 18 bilingual topics", len(entries))
 	}
 	for _, entry := range entries {
 		name := strings.TrimSuffix(strings.TrimSuffix(entry.Name(), ".md"), ".zh-CN")

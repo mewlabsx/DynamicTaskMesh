@@ -1,11 +1,12 @@
 # 中文文档导航
 
-本目录按 16 个当前主题提供中英文对照。历史详细设计与审查记录保留在本地，不属于公开源码目录。
+本目录按 18 个当前主题提供中英文对照。历史详细设计与审查记录保留在本地，不属于公开源码目录。
 
 ## 使用与理解
 
 - [快速开始](quickstart.zh-CN.md)与[示例](examples.zh-CN.md)。
 - [架构概览](overview.zh-CN.md)与[能力状态](status.zh-CN.md)。
+- [概念地图](concept-map.zh-CN.md)与[代码地图](code-map.zh-CN.md)。
 - [关键设计索引](contracts.zh-CN.md)：[任务模型](task-model.zh-CN.md)、[Kernel/User Space 边界](kernel-userspace-boundary.zh-CN.md)、[执行契约](execution-contract.zh-CN.md)、[资源权威](resource-authority.zh-CN.md)、[恢复与幂等](recovery-idempotency.zh-CN.md)。
 
 ## 开发与发行

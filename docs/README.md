@@ -1,11 +1,12 @@
 # Documentation
 
-This directory contains 16 current topics in English and Chinese. Historical detailed design and review records are retained locally, outside the public source tree.
+This directory contains 18 current topics in English and Chinese. Historical detailed design and review records are retained locally, outside the public source tree.
 
 ## Use and understand
 
 - [Quickstart](quickstart.md) and [examples](examples.md).
 - [Architecture overview](overview.md) and [capability status](status.md).
+- [Concept map](concept-map.md) and [code map](code-map.md).
 - [Key design index](contracts.md): [task model](task-model.md), [Kernel/User Space boundary](kernel-userspace-boundary.md), [execution](execution-contract.md), [resource authority](resource-authority.md), [recovery/idempotency](recovery-idempotency.md).
 
 ## Develop and release

@@ -1,6 +1,6 @@
 # Initial public preview scope
 
-Planned release: v0.7.0-alpha.1, source-only prerelease at https://github.com/mewlabsx/DynamicTaskMesh. Source has not been pushed and no GitHub Release has been created. The public docs are consolidated into 16 bilingual topics; detailed historical records remain local. This is not a production-readiness declaration.
+Planned release: v0.7.0-alpha.1, source-only prerelease at https://github.com/mewlabsx/DynamicTaskMesh. Source has not been pushed and no GitHub Release has been created. The public docs are consolidated into 18 bilingual topics; detailed historical records remain local. This is not a production-readiness declaration.
 
 DTM's own code and documentation use AGPL-3.0-only, with Copyright (c) 2026 Zhao Tao (赵涛); see [LICENSE](../LICENSE) and the README licensing scope. Third-party components retain their original licenses. The owner declaration does not replace complete file-level provenance verification.
 
@@ -15,4 +15,4 @@ Detailed historical design/review documents are omitted. Necessary semantic gove
 [简体中文](release-readiness.zh-CN.md)
 
 
-Publication scope: 16 bilingual topics, five current Architecture State YAML files and one effective semantic governance sign-off. No detailed historical design/review tree is shipped. The public Git history begins with one clean root commit from this final scope; original development history is excluded. Local preparation does not mean the source or release has been published on GitHub.
+Publication scope: 18 bilingual topics, five current Architecture State YAML files and one effective semantic governance sign-off. No detailed historical design/review tree is shipped. The public Git history begins with one clean root commit from this final scope; original development history is excluded. Local preparation does not mean the source or release has been published on GitHub.

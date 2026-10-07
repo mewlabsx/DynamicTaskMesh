@@ -1,6 +1,10 @@
 # Candidate validation
 
-Date: October 3, 2026 (Asia/Shanghai). Windows/amd64, Go 1.24.12. This record applies to the compact public tree with 16 bilingual documentation topics, assembled from the selected development baseline plus publication-only documentation and document-check migrations.
+Date: October 3, 2026 (Asia/Shanghai). Windows/amd64, Go 1.24.12. This record applies to the compact public tree with 18 bilingual documentation topics, assembled from the selected development baseline plus publication-only documentation and document-check migrations.
+
+## Scope revision
+
+The `concept-map` and `code-map` topics were added after the checks below were recorded. This revision updates the scope count only: no product code, contract, schema, migration or Architecture State YAML changed, and no new validation was performed. Every result below still describes the source it was recorded against, not the two added topics.
 
 ## Current convergence checks
 
@@ -12,7 +16,7 @@ Date: October 3, 2026 (Asia/Shanghai). Windows/amd64, Go 1.24.12. This record ap
 | Architecture semantic equivalence | PASS | Five YAML files, 1,776 scalar values; 281 document-reference changes, zero other scalar/ID/status/list/structure changes |
 | Production source SHA-256 comparison | PASS | All included non-test Go/proto/SQL files unchanged from the prior snapshot; independent review checked 155 files |
 | Current local document references | PASS | Reader-facing Markdown file/heading targets and current architecture source fragments; remote URLs and legacy references inside code literals are outside this check |
-| Public scope inventory | PASS | 16 topics / 32 docs files, no version/history subdirectories, no original Git history, local archives or unaccepted experiments |
+| Public scope inventory | PASS | 18 topics / 36 docs files, no version/history subdirectories, no original Git history, local archives or unaccepted experiments |
 | Independent read-only review | PASS after clarification | Five bilingual key designs and three architecture-test migrations; effective governance, status boundaries and production checks preserved |
 
 Historical document-header and phase-report assertions were migrated to required current topic contracts, unchanged machine-readable semantics/status checks and retained production-boundary scans. The historical drift-findings YAML parse-only check is local archive material; all five current YAML parse checks remain required. No production behavior or test bypass was introduced. The first targeted migration check found stale headings and a case-sensitive contract phrase; these were repaired before the full suite passed.
